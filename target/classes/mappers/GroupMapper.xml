@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wzy.dao.IGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wzy.entity.Group">
+        <id column="id" property="id" />
+        <result column="group_name" property="groupName" />
+        <result column="group_avatar" property="groupAvatar" />
+        <result column="description" property="description" />
+        <result column="owner_user_id" property="ownerUserId" />
+        <result column="address" property="address" />
+        <result column="is_delete" property="delete" />
+        <result column="version" property="version" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_time" property="lastModifiedTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, group_name, group_avatar, description, owner_user_id, address, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
+    </sql>
+
+</mapper>
