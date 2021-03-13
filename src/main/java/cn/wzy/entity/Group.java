@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("group")
+@TableName("smbms_group")
 //@ApiModel(value="Group对象", description="项目管理-组织表")
 public class Group implements Serializable {
 
@@ -54,7 +54,7 @@ public class Group implements Serializable {
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")
     @TableLogic
-    private Boolean delete;
+    private Boolean deleted;
 
     //@ApiModelProperty(value = "版本号")
     @TableField("version")

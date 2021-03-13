@@ -35,7 +35,7 @@ public class GroupController {
 
         System.out.println(principal);
         log.info("当前用户信息{}", principal);
-        Group userGroupInfo = groupService.getOne(new QueryWrapper<Group>().eq("id", principal.getId()));
+        Group userGroupInfo = groupService.getById(principal.getId());
 
 
         if (ObjectUtils.isEmpty(userGroupInfo)) {

@@ -77,7 +77,7 @@
                 /bill/** = authc,roleFilter[admin,leader]
                 /provider/** = authc,roleFilter[admin]
                 /** = authc
-                /group/* = authc
+                /group/** = authc,roleFilter[admin]
             </value>
         </property>
     </bean>
