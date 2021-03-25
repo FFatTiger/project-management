@@ -14,26 +14,22 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 文档信息
  * </p>
  *
  * @author wzy
- * @since 2021-03-09
+ * @since 2021-03-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("project_info")
-//@ApiModel(value="ProjectInfo对象", description="")
 public class ProjectInfo implements Serializable {
 
 
+    //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
-    //@ApiModelProperty(value = "封面")
-    @TableField("cover")
-    private String cover;
 
     //@ApiModelProperty(value = "名称")
     @TableField("name")
@@ -43,7 +39,7 @@ public class ProjectInfo implements Serializable {
     @TableField("description")
     private String description;
 
-    //@ApiModelProperty(value = "访问控制l类型 0:open, 1:private, 2:custom")
+    //@ApiModelProperty(value = "访问控制类型 0:open, 1:private, 2:custom")
     @TableField("access_control_type")
     private Integer accessControlType;
 
@@ -51,41 +47,37 @@ public class ProjectInfo implements Serializable {
     @TableField("white_list")
     private String whiteList;
 
-    //@ApiModelProperty(value = "项目类型")
-    @TableField("template_code")
-    private String templateCode;
-
-    //@ApiModelProperty(value = "进度")
-    @TableField("schedule")
-    private Double schedule;
+    //@ApiModelProperty(value = "项目类型ID")
+    @TableField("type_id")
+    private Long typeId;
 
     //@ApiModelProperty(value = "组织id")
     @TableField("group_id")
-    private String groupId;
+    private Long groupId;
 
     //@ApiModelProperty(value = "是否私有 1:是 0:否")
     @TableField("is_private")
-    private Boolean is_private;
+    private Integer isPrivate;
 
     //@ApiModelProperty(value = "是否开启项目前缀 1:是 0:否")
     @TableField("open_prefix")
-    private Boolean openPrefix;
+    private Integer openPrefix;
 
     //@ApiModelProperty(value = "是否归档 1:是 0:否")
     @TableField("archive")
-    private Boolean archive;
+    private Integer archive;
 
     //@ApiModelProperty(value = "归档时间")
     @TableField("archive_time")
-    private String archiveTime;
+    private LocalDateTime archiveTime;
 
     //@ApiModelProperty(value = "项目开始日期")
     @TableField("begin_time")
-    private String beginTime;
+    private LocalDateTime beginTime;
 
     //@ApiModelProperty(value = "项目截止日期")
     @TableField("end_time")
-    private String endTime;
+    private LocalDateTime endTime;
 
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")

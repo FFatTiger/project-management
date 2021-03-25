@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.wzy.dao.IProjectMemberMapper">
+<mapper namespace="cn.wzy.dao.IProjectGroupMemberMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="cn.wzy.entity.ProjectMember">
+    <resultMap id="BaseResultMap" type="cn.wzy.entity.ProjectGroupMember">
         <id column="id" property="id" />
-        <result column="project_id" property="projectId" />
+        <result column="group_id" property="groupId" />
         <result column="user_id" property="userId" />
         <result column="join_time" property="joinTime" />
         <result column="is_owner" property="isOwner" />
@@ -20,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, project_id, user_id, join_time, is_owner, authorize, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
+        id, group_id, user_id, join_time, is_owner, authorize, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
 </mapper>

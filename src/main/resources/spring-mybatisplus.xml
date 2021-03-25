@@ -16,13 +16,12 @@
 
 <context:property-placeholder location="classpath:dbInfo.properties"></context:property-placeholder>
 
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${driver}"></property>
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <property name="driverClassName" value="${driver}"></property>
         <property name="jdbcUrl" value="${url}"></property>
-        <property name="user" value="${user}"></property>
+        <property name="username" value="${username}"></property>
         <property name="password" value="${pass}"></property>
-        <property name="maxPoolSize" value="${maxSize}"></property>
-        <property name="initialPoolSize" value="${initSize}"></property>
+        <property name="maximumPoolSize" value="${maxSize}"></property>
      </bean>
 
 

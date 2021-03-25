@@ -5,15 +5,13 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.wzy.entity.ProjectInfo">
         <id column="id" property="id" />
-        <result column="cover" property="cover" />
         <result column="name" property="name" />
         <result column="description" property="description" />
         <result column="access_control_type" property="accessControlType" />
         <result column="white_list" property="whiteList" />
-        <result column="template_code" property="templateCode" />
-        <result column="schedule" property="schedule" />
+        <result column="type_id" property="typeId" />
         <result column="group_id" property="groupId" />
-        <result column="is_private" property="private" />
+        <result column="is_private" property="isPrivate" />
         <result column="open_prefix" property="openPrefix" />
         <result column="archive" property="archive" />
         <result column="archive_time" property="archiveTime" />
@@ -29,7 +27,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, cover, name, description, access_control_type, white_list, template_code, schedule, group_id, is_private, open_prefix, archive, archive_time, begin_time, end_time, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
+        id, name, description, access_control_type, white_list, type_id, group_id, is_private, open_prefix, archive, archive_time, begin_time, end_time, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
 </mapper>

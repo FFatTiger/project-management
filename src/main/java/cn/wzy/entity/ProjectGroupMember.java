@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 项目管理-文件表
+ * 项目管理-组织-成员表
  * </p>
  *
  * @author wzy
@@ -23,54 +23,34 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("project_document_info")
-//@ApiModel(value="ProjectDocumentInfo对象", description="项目管理-文件表")
-public class ProjectDocumentInfo implements Serializable {
+@TableName("project_group_member")
+//@ApiModel(value="ProjectGroupMember对象", description="项目管理-组织-成员表")
+public class ProjectGroupMember implements Serializable {
 
 
     //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    //@ApiModelProperty(value = "相对路径")
-    @TableField("path_name")
-    private String pathName;
-
-    //@ApiModelProperty(value = "名称")
-    @TableField("title")
-    private String title;
-
-    //@ApiModelProperty(value = "扩展名")
-    @TableField("extension")
-    private String extension;
-
-    //@ApiModelProperty(value = "文件大小")
-    @TableField("size")
-    private Integer size;
-
     //@ApiModelProperty(value = "组织id")
     @TableField("group_id")
-    private Long groupId;
+    private String groupId;
 
-    //@ApiModelProperty(value = "所属项目id")
-    @TableField("project_id")
-    private Long projectId;
+    //@ApiModelProperty(value = "成员id")
+    @TableField("user_id")
+    private String userId;
 
-    //@ApiModelProperty(value = "下载次数")
-    @TableField("downloads")
-    private Integer downloads;
+    //@ApiModelProperty(value = "加入时间")
+    @TableField("join_time")
+    private LocalDateTime joinTime;
 
-    //@ApiModelProperty(value = "额外信息")
-    @TableField("extra")
-    private String extra;
+    //@ApiModelProperty(value = "1:拥有者 0:普通")
+    @TableField("is_owner")
+    private Integer isOwner;
 
-    //@ApiModelProperty(value = "完整地址")
-    @TableField("file_url")
-    private String fileUrl;
-
-    //@ApiModelProperty(value = "文件类型")
-    @TableField("file_type")
-    private String fileType;
+    //@ApiModelProperty(value = "角色")
+    @TableField("authorize")
+    private String authorize;
 
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")

@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author wzy
- * @since 2021-03-09
+ * @since 2021-03-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,6 +28,7 @@ import lombok.experimental.Accessors;
 public class ProjectMember implements Serializable {
 
 
+    //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
