@@ -3,6 +3,8 @@ package cn.wzy.dao;
 import cn.wzy.entity.ProjectInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 文档信息 Mapper 接口
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface IProjectInfoMapper extends BaseMapper<ProjectInfo> {
 
+    /**
+     * 获取用户加入的项目的信息
+     * @param id
+     * @return
+     */
+    List<ProjectInfo> getByUserId(Long id);
 }

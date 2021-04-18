@@ -55,7 +55,7 @@ public class ProjectGroupMember implements Serializable {
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")
     @TableLogic
-    private Boolean delete;
+    private Boolean deleted;
 
     //@ApiModelProperty(value = "版本号")
     @TableField("version")

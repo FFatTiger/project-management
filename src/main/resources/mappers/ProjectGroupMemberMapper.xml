@@ -10,7 +10,7 @@
         <result column="join_time" property="joinTime" />
         <result column="is_owner" property="isOwner" />
         <result column="authorize" property="authorize" />
-        <result column="is_delete" property="delete" />
+        <result column="is_delete" property="deleted" />
         <result column="version" property="version" />
         <result column="created_by" property="createdBy" />
         <result column="created_time" property="createdTime" />

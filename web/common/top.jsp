@@ -58,7 +58,7 @@
                 if (data[i].parentCode == 0) { //取出父元素的菜单，拼进页面
                     if(data[i].permUrl==null){
                         url = "javascript:;";
-                    }else if(data[i].permName=="修改密码" || data[i].permName=="组织信息"){
+                    }else if(data[i].permName=="修改密码"){
                         url = "${pageContext.request.contextPath}"+data[i].permUrl;
                     }else{
                         url = data[i].permUrl;

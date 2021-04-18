@@ -42,7 +42,7 @@ public class ProjectMember implements Serializable {
 
     //@ApiModelProperty(value = "加入时间")
     @TableField("join_time")
-    private String joinTime;
+    private LocalDateTime joinTime;
 
     //@ApiModelProperty(value = "拥有者")
     @TableField("is_owner")
@@ -55,7 +55,7 @@ public class ProjectMember implements Serializable {
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")
     @TableLogic
-    private Boolean delete;
+    private Boolean deleted;
 
     //@ApiModelProperty(value = "版本号")
     @TableField("version")

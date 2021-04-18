@@ -40,13 +40,14 @@ public class ProjectDocumentInfo implements Serializable {
     @TableField("title")
     private String title;
 
-    //@ApiModelProperty(value = "扩展名")
-    @TableField("extension")
-    private String extension;
 
     //@ApiModelProperty(value = "文件大小")
     @TableField("size")
     private Integer size;
+
+    //@ApiModelProperty(value = "组织id")
+    @TableField("upload_user_id")
+    private Long uploadUserId;
 
     //@ApiModelProperty(value = "组织id")
     @TableField("group_id")
@@ -75,7 +76,7 @@ public class ProjectDocumentInfo implements Serializable {
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")
     @TableLogic
-    private Boolean delete;
+    private Boolean deleted;
 
     //@ApiModelProperty(value = "版本号")
     @TableField("version")

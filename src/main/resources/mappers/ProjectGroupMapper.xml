@@ -9,7 +9,7 @@
         <result column="group_avatar" property="groupAvatar" />
         <result column="description" property="description" />
         <result column="owner_user_id" property="ownerUserId" />
-        <result column="is_delete" property="delete" />
+        <result column="is_delete" property="deleted" />
         <result column="version" property="version" />
         <result column="created_by" property="createdBy" />
         <result column="created_time" property="createdTime" />

@@ -7,15 +7,15 @@
         <id column="id" property="id" />
         <result column="path_name" property="pathName" />
         <result column="title" property="title" />
-        <result column="extension" property="extension" />
         <result column="size" property="size" />
+        <result column="upload_user_id" property="uploadUserId"/>
         <result column="group_id" property="groupId" />
         <result column="project_id" property="projectId" />
         <result column="downloads" property="downloads" />
         <result column="extra" property="extra" />
         <result column="file_url" property="fileUrl" />
         <result column="file_type" property="fileType" />
-        <result column="is_delete" property="delete" />
+        <result column="is_delete" property="deleted" />
         <result column="version" property="version" />
         <result column="created_by" property="createdBy" />
         <result column="created_time" property="createdTime" />
@@ -25,7 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, path_name, title, extension, size, group_id, project_id, downloads, extra, file_url, file_type, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
+        id, path_name, title,  size, upload_user_id, group_id, project_id, downloads, extra, file_url, file_type, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
 </mapper>

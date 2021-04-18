@@ -17,7 +17,7 @@
         <result column="archive_time" property="archiveTime" />
         <result column="begin_time" property="beginTime" />
         <result column="end_time" property="endTime" />
-        <result column="is_delete" property="delete" />
+        <result column="is_delete" property="deleted" />
         <result column="version" property="version" />
         <result column="created_by" property="createdBy" />
         <result column="created_time" property="createdTime" />
@@ -30,4 +30,11 @@
         id, name, description, access_control_type, white_list, type_id, group_id, is_private, open_prefix, archive, archive_time, begin_time, end_time, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
+    <select id="getByUserId" resultMap="BaseResultMap">
+        select
+        pi.id, pi.name, pi.description, pi.access_control_type, pi.white_list, pi.type_id, pi.group_id, pi.is_private, pi.open_prefix, pi.archive, pi.archive_time, pi.begin_time, pi.end_time, pi.is_delete as deleted, pi.version, pi.created_by, pi.created_time, pi.last_modified_by, pi.last_modified_time
+        from project_info pi
+        inner join project_member pm on pi.id = pm.project_id
+        where pm.user_id = #{id,jdbcType=BIGINT} and pm.is_delete = '0'
+    </select>
 </mapper>
