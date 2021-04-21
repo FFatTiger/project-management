@@ -12,7 +12,6 @@
         <result column="group_id" property="groupId" />
         <result column="project_id" property="projectId" />
         <result column="downloads" property="downloads" />
-        <result column="extra" property="extra" />
         <result column="file_url" property="fileUrl" />
         <result column="file_type" property="fileType" />
         <result column="is_delete" property="deleted" />
@@ -25,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, path_name, title,  size, upload_user_id, group_id, project_id, downloads, extra, file_url, file_type, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
+        id, path_name, title,  size, upload_user_id, group_id, project_id, downloads, file_type, file_url,  is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
 </mapper>

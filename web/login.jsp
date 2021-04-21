@@ -3,13 +3,13 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>系统登录 - 超市账单管理系统</title>
+    <title>系统登录 - 项目管理系统</title>
     <%@ include file="common/cssOrJs.jsp"%>
 </head>
 <body class="login_bg">
     <section class="loginBox">
         <header class="loginHeader">
-            <h1>超市账单管理系统</h1>
+            <h1>项目管理系统</h1>
         </header>
         <section class="loginCont">
             <form class="loginForm" method="post" id="loginForm" action="#">

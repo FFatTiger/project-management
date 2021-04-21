@@ -25,7 +25,6 @@
                     <th width="5%">所属组织</th>
                     <th width="10%">所属项目</th>
                     <th width="10%">下载次数</th>
-                    <th width="20%">额外信息</th>
                     <th width="15%">文件类型</th>
                     <th width="15%">上传时间</th>
                 </tr>
@@ -38,7 +37,6 @@
                         <td>${file.groupId}</td>
                         <td>${file.projectId}</td>
                         <td>${file.downloads}</td>
-                        <td>${file.extra}</td>
                         <td>${file.fileType}</td>
                         <td>${file.createdTime}</td>
                     </tr>

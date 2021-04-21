@@ -3,7 +3,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>超市账单管理系统</title>
+    <title>项目管理系统</title>
     <%@ include file="common/cssOrJs.jsp"%>
 </head>
 <body class="layui-layout-body">
