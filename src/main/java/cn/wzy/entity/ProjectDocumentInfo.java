@@ -58,6 +58,9 @@ public class ProjectDocumentInfo implements Serializable {
     @TableField("downloads")
     private Integer downloads;
 
+    @TableField("audit")
+    private Boolean audit;
+
     //@ApiModelProperty(value = "完整地址")
     @TableField("file_url")
     private String fileUrl;

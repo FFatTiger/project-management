@@ -66,6 +66,7 @@
                     <th width="10%">所属项目</th>
                     <th width="5%">下载次数</th>
                     <th width="5%">文件类型</th>
+                    <th width="10%">审核是否通过</th>
                     <th width="15%">上传时间</th>
                     <th width="25%">操作</th>
                 </tr>
@@ -79,8 +80,12 @@
                         <td>${file.projectId}</td>
                         <td>${file.downloads}</td>
                         <td>${file.fileType}</td>
+                        <td>${file.audit == true ? '是' :'否'}</td>
                         <td><fmt:formatDate value="${file.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>
+                            <a href="${pageContext.request.contextPath}/projectDocument/download/${file.id}"
+                               class="layui-btn layui-btn-sm">审核通过
+                            </a>
                             <a href="${pageContext.request.contextPath}/projectDocument/download/${file.id}"
                                class="layui-btn layui-btn-sm">下载
                             </a>
