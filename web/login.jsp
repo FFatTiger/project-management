@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="common/JSTLPage.jsp"%>
+<%@ include file="common/JSTLPage.jsp" %>
+<!doctype html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -27,6 +28,7 @@
                 <div class="subBtn">
                     <button type="button" id="submit" class="layui-btn">登陆</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <a href="${pageContext.request.contextPath}/register.jsp" class="layui-btn layui-btn-primary">注册</a>
                 </div>
 
             </form>
@@ -63,7 +65,7 @@
     $("#submit").click(function () {
         if(checkuser()&&checkmima()){
             $.ajax({
-               url:"${pageContext.request.contextPath}/user/login.do",
+               url:"${pageContext.request.contextPath}/user/login",
                 type:"post",
                 dataType:"text",
                 data: $("#loginForm").serialize(),

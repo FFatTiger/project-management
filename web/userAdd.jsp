@@ -16,7 +16,7 @@
             <strong>你现在所在的位置是:</strong>
             <span>用户管理页面 >> 用户添加页面</span>
         </div>
-        <div class="providerAdd">
+        <div class="projectAdd">
             <form id="addForm" action="##" method="post">
                 <!--div的class 为error是验证错误，ok是验证成功-->
                 <input type="hidden" value="<s:principal property='id'></s:principal>" name="createdBy">
@@ -93,14 +93,14 @@
     function submit1(){
         if(checkPhone()&&checkPass()&&checkName()&&checkBir()){
             $.ajax({
-                url:"${pageContext.request.contextPath}/user/add.do",
+                url:"${pageContext.request.contextPath}/user/add",
                 type:"post",
                 dataType:"text",
                 data:$("#addForm").serialize(),
                 success:function (data) {
                     if(data=="success"){
                         alert("添加成功");
-                        window.location.href="${pageContext.request.contextPath}/user/getAll.do";
+                        window.location.href="${pageContext.request.contextPath}/user/getAll";
                     }else if(data=="error"){
                         alert("添加失败");
                         window.location.href="${pageContext.request.contextPath}/user/getAll.do";

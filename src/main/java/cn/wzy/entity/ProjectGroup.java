@@ -1,13 +1,11 @@
 package cn.wzy.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -30,7 +28,7 @@ public class ProjectGroup implements Serializable {
 
     //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     //@ApiModelProperty(value = "组织名称")
     @TableField("group_name")
@@ -59,20 +57,22 @@ public class ProjectGroup implements Serializable {
     private Integer version;
 
     //@ApiModelProperty(value = "创建人")
-    @TableField("created_by")
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private String createdBy;
 
     //@ApiModelProperty(value = "创建时间")
     @TableField("created_time")
-    private LocalDateTime createdTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date createdTime;
 
     //@ApiModelProperty(value = "更新人")
-    @TableField("last_modified_by")
+    @TableField(value = "last_modified_by", fill = FieldFill.INSERT_UPDATE)
     private String lastModifiedBy;
 
     //@ApiModelProperty(value = "更新时间")
     @TableField("last_modified_time")
-    private LocalDateTime lastModifiedTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date lastModifiedTime;
 
 
 }

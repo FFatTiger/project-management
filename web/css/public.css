@@ -220,23 +220,8 @@ li{
     outline: none;
     background-color: #5d8410;
 }
-.search a{
-    width: 80px;
-    padding-left:40px;
-    float: right;
-    margin: 10px 60px;
-    height: 30px;
-    line-height: 30px;
-    border: 1px solid #0c89de;
-    border-radius: 4px;
-    color: #fff;
-    font-weight: bold;
-    background:#47acf1 url("../img/tianjia.png") 10px center no-repeat;
-    display: inline-block;
-}
-.search a:hover,.search a:active{
-    background-color: #0778c5;
-}
+
+
 .search span{
     margin-left: 10px;
 }
@@ -255,6 +240,10 @@ li{
     line-height: 40px;
     text-align: center;
     color: #fff;
+}
+
+.operation{
+    float: right;
 }
 
 

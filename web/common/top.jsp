@@ -23,8 +23,8 @@
                 <s:principal property="userName"></s:principal>
             </a>
             <dl class="layui-nav-child">
-                <dd><a href="${pageContext.request.contextPath}/user/get/<s:principal property="id"></s:principal>.do">基本资料</a></dd>
-                <dd><a href="${pageContext.request.contextPath}/user/update/<s:principal property="id"></s:principal>.do">资料修改</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/user/get/<s:principal property="id"></s:principal>">基本资料</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/user/update/<s:principal property="id"></s:principal>">资料修改</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item"><a href="javascript:logout()">退了</a></li>
@@ -46,7 +46,7 @@
     });
     $.ajax({
         type: "get",
-        url: "${pageContext.request.contextPath}/perm/getMenu.do",
+        url: "${pageContext.request.contextPath}/perm/getMenu",
         dataType: "json",
         success: function(data){//菜单集合为: data.
             //2.构建菜单:

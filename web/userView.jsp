@@ -22,9 +22,12 @@
             <p><strong>出生日期：</strong><span><fmt:formatDate value="${USER.birthday}" pattern="yyyy-MM-dd"/> </span></p>
             <p><strong>用户电话：</strong><span>${USER.phone}</span></p>
             <p><strong>用户地址：</strong><span>${USER.address}</span></p>
-            <p><strong>用户类别：</strong><span>${USER.userType eq 1?"管理员":USER.userType eq 2?"经理":"普通用户"}</span></p>
+            <p><strong>用户类别：</strong><span>${USER.userType eq 1?"所有者":USER.userType eq 2?"管理员":"普通用户"}</span></p>
 
-            <a href="javascript:window.history.go(-1)">返回</a>
+            <div class="a">
+                <a href="javascript:window.history.go(-1)">返回</a>
+                <a href="javascript:window.history.go(-1)">注销</a>
+            </div>
         </div>
     </div>
     <div class="layui-footer">

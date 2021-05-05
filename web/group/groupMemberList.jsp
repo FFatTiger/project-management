@@ -16,7 +16,7 @@
                 <strong>你现在所在的位置是:</strong>
                 <span>账单管理页面 >> 订单添加页面</span>
             </div>
-            <div class="providerAdd">
+            <div class="projectAdd">
                 <h2 >${group_msg}</h2>
             </div>
 

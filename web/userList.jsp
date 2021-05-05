@@ -20,7 +20,7 @@
                 <span>用户名：</span>
                 <input type="text" value="${NAME}" id="username" placeholder="请输入用户名"/>
                 <input type="button" value="查询" onclick="goPage(document.getElementById('username').value,1,document.getElementById('select').value)"/>
-<%--                <a href="${pageContext.request.contextPath}/userAdd.jsp">添加用户</a>--%>
+<%--                <a href="${pageContext.request.contextPath}/projectAdd.jsp">添加用户</a>--%>
             </div>
             <!--用户-->
             <table class="providerTable" cellpadding="0" cellspacing="0">
@@ -40,11 +40,11 @@
                         <td>${u.gender eq 1?"女":"男"}</td>
                         <td>${u.age}</td>
                         <td>${u.phone}</td>
-                        <td>${u.userType eq 1?"管理员":u.userType eq 2?"经理":"普通用户"}</td>
+                        <td>${u.userType eq 1?"所有者":u.userType eq 2?"管理员":"普通用户"}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/user/get/${u.id}.do"><img src="${pageContext.request.contextPath}/img/read.png" alt="查看" title="查看"/></a>
+                            <a href="${pageContext.request.contextPath}/user/get/${u.id}"><img src="${pageContext.request.contextPath}/img/read.png" alt="查看" title="查看"/></a>
                             <s:hasPermission name="/user/update">
-                            <a href="${pageContext.request.contextPath}/user/update/${u.id}.do"><img src="${pageContext.request.contextPath}/img/xiugai.png" alt="修改" title="修改"/></a>
+                            <a href="${pageContext.request.contextPath}/user/update/${u.id}"><img src="${pageContext.request.contextPath}/img/xiugai.png" alt="修改" title="修改"/></a>
                             </s:hasPermission>
                             <s:hasPermission name="/user/del">
                             <a href="javascript:deleteId(${u.id});" class="removeUser"><img src="${pageContext.request.contextPath}/img/schu.png" alt="删除" title="删除"/></a>
@@ -78,14 +78,14 @@
     function goPage(name,currentPage,pageSize) {
         var reg = /^\d+/g;
         if(currentPage >${PAGE.totalPage} || currentPage<=0||!reg.test(currentPage)){
-            window.location.href="${pageContext.request.contextPath}/user/getAll.do?name="+name+"&currentPage=${PAGE.currentPage}&"+"pageSize="+pageSize;
+            window.location.href="${pageContext.request.contextPath}/user/getAll?name="+name+"&currentPage=${PAGE.currentPage}&"+"pageSize="+pageSize;
         }else{
-            window.location.href="${pageContext.request.contextPath}/user/getAll.do?name="+name+"&currentPage="+currentPage+"&pageSize="+pageSize;
+            window.location.href="${pageContext.request.contextPath}/user/getAll?name="+name+"&currentPage="+currentPage+"&pageSize="+pageSize;
         }
     }
 
     function deleteId(id) {
-        var controller = "${pageContext.request.contextPath}/user/del/"+id+".do";
+        var controller = "${pageContext.request.contextPath}/user/del/"+id+"";
         if(confirm("确定删除吗?")){
             $.ajax({
                 url:controller,

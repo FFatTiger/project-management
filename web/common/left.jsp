@@ -3,7 +3,7 @@
     <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
     <nav>
         <ul class="list">
-            <li><a href="${pageContext.request.contextPath}/bill/getAll.do">项目管理</a></li>
+            <li><a href="${pageContext.request.contextPath}/bill/getAll">项目管理</a></li>
             <li><a href="${pageContext.request.contextPath}/provider/getAll.do">项目文档管理</a></li>
             <li><a href="${pageContext.request.contextPath}/user/getAll.do">用户管理</a></li>
             <li><a href="${pageContext.request.contextPath}/password.jsp">密码修改</a></li>

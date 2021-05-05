@@ -82,7 +82,7 @@ input {
 }
 
 /*输入框得到焦点的效果*/
-.inputbox input:active, .providerAdd input:focus,
+.inputbox input:active, .projectAdd input:focus,
 .inputbox input:focus {
     border: 1px solid rgba(91, 90, 90, 0.7);
     background: rgba(238, 236, 240, 0.2);
@@ -193,6 +193,7 @@ input[type='reset']:active, input[type='reset']:focus,
 
 .providerTable td a {
     margin-top: 10px;
+    margin-bottom: 10px;
     display: inline-block;
     margin-right: 10px;
 
@@ -217,35 +218,35 @@ input[type='reset']:active, input[type='reset']:focus,
     color: #bd644e;
 }
 
-.providerView a {
-    margin-left: 520px;
+.providerView .a a {
+    margin-left: 100px;
     position: relative;
     top: 60px;
 }
 
 /*供应商管理页面-->供应商添加页面*/
-.providerAdd {
+.projectAdd {
     border: 1px solid #9ac70f;
     padding: 20px;
     margin: 20px;
 }
 
-.providerAdd form {
+.projectAdd form {
 
 }
 
-.providerAdd div {
+.projectAdd div {
     margin-top: 12px;
     margin-bottom: 12px;
 }
 
-.providerAdd label {
+.projectAdd label {
     width: 200px;
     display: inline-block;
     text-align: right;
 }
 
-.providerAdd input ,.providerAdd select{
+.projectAdd input ,.projectAdd select{
     width: 260px;
     height: 30px;
     line-height: 30px;
@@ -256,7 +257,7 @@ input[type='reset']:active, input[type='reset']:focus,
     box-shadow: 1px 1px 1px #99afc4;
 }
 
-.providerAdd input:focus,.providerAdd select:focus {
+.projectAdd input:focus,.projectAdd select:focus {
     border: 1px solid #0e56a8;
     background: rgba(238, 236, 240, 0.2);
     -webkit-box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.9) inset;
@@ -264,26 +265,26 @@ input[type='reset']:active, input[type='reset']:focus,
     box-shadow: 0px 1px 4px 0px rgba(168, 168, 168, 0.9) inset;
 }
 
-.providerAdd span {
+.projectAdd span {
     margin-left: 20px;
     color: #faca0d;
 }
 
 /*验证错误*/
-.providerAdd .error span {
+.projectAdd .error span {
     color: red;
 }
 
-.providerAdd .error input {
+.projectAdd .error input {
     border: 1px solid red;
 }
 
 /*验证成功*/
-.providerAdd .ok span {
+.projectAdd .ok span {
     color: green;
 }
 
-.providerAdd .ok input {
+.projectAdd .ok input {
     border: 1px solid green;
 }
 
@@ -318,7 +319,18 @@ input[type='reset']:active, input[type='reset']:focus,
     background: linear-gradient(to bottom, #7aaed4, #578bb4, #406e99, #225792, #0d2d54);
 }
 
-.providerAdd input[type='radio']{
+.projectAdd input[type='radio']{
+    width: 20px;
+    height: 14px;
+    line-height:12px;
+    border-radius: 4px;
+    outline: none;
+    padding-left: 10px;
+    border: none;
+    box-shadow: none;
+}
+
+.projectAdd input[type='radio']{
     width: 20px;
     height: 14px;
     line-height:12px;
@@ -343,7 +355,7 @@ input[type='reset']:active, input[type='reset']:focus,
     overflow: hidden;
 }
 .remove{
-   display: none;       /* 修改这里可以让删除框消失*/
+    display: none;       /* 修改这里可以让删除框消失*/
     width: 400px;
     height: 190px;
     position: absolute;

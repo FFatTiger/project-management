@@ -39,12 +39,12 @@
 
 
     <bean id="configuration" class="com.baomidou.mybatisplus.core.MybatisConfiguration">
-        <property name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl"></property>
-        <property name="mapUnderscoreToCamelCase" value="false"></property>
+        <property name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl"/>
+        <property name="mapUnderscoreToCamelCase" value="false"/>
     </bean>
 
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.wzy.dao"></property>
+        <property name="basePackage" value="cn.wzy.dao"/>
     </bean>
 
     <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">

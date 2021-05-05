@@ -1,15 +1,28 @@
 package cn.wzy.controller.project;
 
+import cn.wzy.controller.BaseController;
 import cn.wzy.entity.ProjectDocumentInfo;
 import cn.wzy.entity.User;
 import cn.wzy.service.IProjectDocumentInfoService;
+import cn.wzy.service.IProjectInfoService;
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author wzy
@@ -19,22 +32,116 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @RequestMapping("/projectDocument")
 @RequiredArgsConstructor
-public class ProjectDocumentInfoController {
+public class ProjectDocumentInfoController extends BaseController {
 
     private final IProjectDocumentInfoService projectDocumentInfoService;
+    private final IProjectInfoService projectInfoService;
 
     @GetMapping("/list")
-    public ModelAndView getDocumentInfo(ModelAndView mv) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+    public ModelAndView getDocumentInfo(ModelAndView mv,@RequestParam("searchCondition") String searchCondition,@RequestParam("projectId") Integer projectId) {
 
         mv.addObject(
                         "FILE_INFO_LIST",
-                        projectDocumentInfoService.lambdaQuery()
-                                        .eq(ProjectDocumentInfo::getUploadUserId, user.getId())
-                                        .orderByDesc(ProjectDocumentInfo::getProjectId)
-                                        .list());
-        mv.setViewName("/project/projectFileList.jsp");
+                        projectDocumentInfoService.getDocumentInfoByUserIdAndCondition(projectId, searchCondition));
+        mv.addObject("CUR_USER_ID", getCurUser().getId());
+        mv.addObject("PROJECT_INFO", projectInfoService.getById(projectId));
+        mv.setViewName("/project/projectDetailList.jsp");
 
         return mv;
+    }
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public Map<String, Object> upload(HttpServletRequest request, @RequestParam("file") MultipartFile file, Integer projectId) {
+        JSONObject jsonObject = null;
+        ProjectDocumentInfo projectDocumentInfo = new ProjectDocumentInfo();
+        if (!file.isEmpty()) {
+            jsonObject = null;
+            try {
+                System.out.println("springmvc文件上传...");
+
+                // 使用fileupload组件完成文件上传
+                // 1. 指定文件上传保存的位置
+                String path = request.getSession().getServletContext().getRealPath("/uploads/" + "usr" + getCurUser().getId() + "/");
+
+                // 判断该路径是否存在
+                File newFile = new File(path);
+                if (!newFile.exists() || !newFile.isDirectory()) {
+                    newFile.mkdirs();
+                }
+                // 打印一下文件保存的路径
+                System.out.println("path:" + path);
+
+                // 说明上传文件项
+                // 2. 获取上传文件的名称
+                String filename = file.getOriginalFilename();
+                projectDocumentInfo.setTitle(filename.split("\\.")[0]);
+                // 把文件的名称设置唯一值，uuid
+                String uuid = UUID.randomUUID().toString().replace("-", "");
+                filename = uuid + "_" + filename;
+                // 3.上传文件
+                file.transferTo(new File(path, filename));
+
+                //保存文件信息
+                projectDocumentInfo
+                        .setProjectId(projectId)
+                        .setDownloads(0)
+                        .setFileType(filename.split("\\.")[1])
+                        .setFileUrl(path + filename)
+                        .setGroupId(0)
+                        .setSize(file.getSize())
+                        .setPathName(path + filename)
+                        .setUploadUserId(getCurUser().getId())
+                        .setCreatedBy(getCurUser().getUserName())
+                        .setLastModifiedBy(getCurUser().getUserName());
+                projectDocumentInfoService.insertOne(projectDocumentInfo);
+                jsonObject = new JSONObject();
+                jsonObject.put("success", file.getOriginalFilename());
+                return jsonObject;
+            } catch (Exception e) {
+                jsonObject.put("failed", file.getOriginalFilename());
+                return jsonObject;
+            }
+        } else {
+            jsonObject.put("failed", file.getOriginalFilename());
+            return jsonObject;
+        }
+    }
+
+    @GetMapping("/download/{fileId}")
+    @ResponseBody
+    public void download(HttpServletResponse response, @PathVariable("fileId") Integer fileId) throws IOException {
+        ProjectDocumentInfo documentInfo = projectDocumentInfoService.getById(fileId);
+        String filePath = documentInfo.getFileUrl();
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(documentInfo.getTitle() +"."+ documentInfo.getFileType(),"utf-8"));
+        OutputStream os = null;
+        InputStream inputStream = null;
+        try {
+            //打开本地文件流
+            inputStream = new FileInputStream(filePath);
+            //激活下载操作
+            os = response.getOutputStream();
+            IOUtils.copy(inputStream, os);
+            documentInfo.incrementDownloads();
+            projectDocumentInfoService.save(documentInfo);
+        } catch (Exception e) {
+
+        } finally {
+            os.close();
+            inputStream.close();
+        }
+    }
+
+    @GetMapping("/del/{fileId}")
+    public String del(@PathVariable("fileId") Integer fileId) {
+        ProjectDocumentInfo projectDocumentInfo = projectDocumentInfoService.getById(fileId);
+        if (getCurUser().getId().equals(projectDocumentInfo.getUploadUserId())) {
+            projectDocumentInfoService.removeById(fileId);
+            return "/projectDocument/list?searchCondition=";
+        }
+        return "/projectDocument/list?searchCondition=";
+
     }
 }

@@ -27,4 +27,15 @@
         id, path_name, title,  size, upload_user_id, group_id, project_id, downloads, file_type, file_url,  is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
+    <select id="getDocumentInfoByProjectIdAndCondition" resultMap="BaseResultMap">
+        select  pdi.id, pdi.path_name, pdi.title,  pdi.size, pdi.upload_user_id, pdi.group_id, pdi.project_id, pdi.downloads, pdi.file_type, pdi.file_url,  pdi.is_delete, pdi.version, pdi.created_by, pdi.created_time, pdi.last_modified_by, pdi.last_modified_time
+        from
+        project_document_info pdi
+        where
+        pdi.project_id = #{projectId} AND pdi.is_delete = '0'
+        <if test="searchCondition != null and searchCondition != ''">
+            AND (pdi.title LIKE "%${searchCondition}%" OR pdi.file_type LIKE "%${searchCondition}%" OR pdi.created_by LIKE "%${searchCondition}%")
+        </if>
+    </select>
+
 </mapper>

@@ -56,25 +56,26 @@
                      第三个其他所有路径任何人都可以访问。
                 -->
                 /login.jsp = anon
-                /user/login.do = anon
+                /register.jsp = anon
+                /user/login = anon
                 /css/* = anon
                 /js/* = anon
                 /laydate/* = anon
                 /img/* = anon
                 /common/* = anon
-                /user/edit.do = authc
-                /user/logout.do = authc
-                /billAdd.jsp = authc,roleFilter[admin,leader]
+                /user/edit = authc
+                /user/logout = authc
+                /billAdd.jsp = authc,roleFilter[admin,manager]
                 /providerAdd.jsp = authc,roleFilter[admin]
                 /userAdd.jsp = authc,roleFilter[admin]
-                /bill/getAll.do = authc,roleFilter[admin,leader,emplyer]
-                /provider/getAll.do = authc,roleFilter[admin,leader,emplyer]
-                /bill/get/* = authc,roleFilter[admin,leader,emplyer]
-                /provider/get/* = authc,roleFilter[admin,leader,emplyer]
-                /user/getAll.do = authc,roleFilter[admin,leader]
-                /user/get/* = authc,roleFilter[admin,leader]
+                /bill/getAll = authc,roleFilter[admin,manager,custom]
+                /provider/getAll = authc,roleFilter[admin,manager,custom]
+                /bill/get/* = authc,roleFilter[admin,manager,custom]
+                /provider/get/* = authc,roleFilter[admin,manager,custom]
+                /user/getAll = authc,roleFilter[admin,manager]
+                /user/get/* = authc,roleFilter[admin,manager]
                 /user/** = authc,roleFilter[admin]
-                /bill/** = authc,roleFilter[admin,leader]
+                /bill/** = authc,roleFilter[admin,manager]
                 /provider/** = authc,roleFilter[admin]
                 /** = authc
 

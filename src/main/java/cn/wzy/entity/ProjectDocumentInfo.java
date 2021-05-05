@@ -1,12 +1,9 @@
 package cn.wzy.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.*;
+
+import java.util.Date;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,7 +27,7 @@ public class ProjectDocumentInfo implements Serializable {
 
     //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     //@ApiModelProperty(value = "相对路径")
     @TableField("path_name")
@@ -43,19 +40,19 @@ public class ProjectDocumentInfo implements Serializable {
 
     //@ApiModelProperty(value = "文件大小")
     @TableField("size")
-    private Integer size;
+    private Long size;
 
     //@ApiModelProperty(value = "组织id")
     @TableField("upload_user_id")
-    private Long uploadUserId;
+    private Integer uploadUserId;
 
     //@ApiModelProperty(value = "组织id")
     @TableField("group_id")
-    private Long groupId;
+    private Integer groupId;
 
     //@ApiModelProperty(value = "所属项目id")
     @TableField("project_id")
-    private Long projectId;
+    private Integer projectId;
 
     //@ApiModelProperty(value = "下载次数")
     @TableField("downloads")
@@ -80,20 +77,30 @@ public class ProjectDocumentInfo implements Serializable {
     private Integer version;
 
     //@ApiModelProperty(value = "创建人")
-    @TableField("created_by")
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private String createdBy;
 
     //@ApiModelProperty(value = "创建时间")
     @TableField("created_time")
-    private LocalDateTime createdTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date createdTime;
 
     //@ApiModelProperty(value = "更新人")
-    @TableField("last_modified_by")
+    @TableField(value = "last_modified_by", fill = FieldFill.INSERT_UPDATE)
     private String lastModifiedBy;
 
     //@ApiModelProperty(value = "更新时间")
     @TableField("last_modified_time")
-    private LocalDateTime lastModifiedTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date lastModifiedTime;
 
+    public ProjectDocumentInfo incrementDownloads() {
+        if (downloads != null) {
+            this.downloads++;
+        } else {
+            downloads = 0;
+        }
+        return this;
+    }
 
 }

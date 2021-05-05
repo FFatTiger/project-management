@@ -16,7 +16,7 @@
             <strong>你现在所在的位置是:</strong>
             <span>用户管理页面 >> 用户修改页面</span>
         </div>
-        <div class="providerAdd">
+        <div class="projectAdd">
             <form action="##" method="post" id="updateForm">
                 <!--div的class 为error是验证错误，ok是验证成功-->
                 <input type="hidden" value="${USER.id}" name="id">
@@ -51,8 +51,8 @@
                 </div>
                 <div>
                     <label >用户类别：</label>
-                    <input type="radio" name="userType" value="1" ${USER.userType eq 1?"checked":""}/>管理员
-                    <input type="radio" name="userType" <c:if test="${USER.userType eq 1}">disabled</c:if> value="2" ${USER.userType eq 2?"checked":""}/>经理
+                    <input type="radio" name="userType" value="1" ${USER.userType eq 1?"checked":""}/>所有者
+                    <input type="radio" name="userType" <c:if test="${USER.userType eq 1}">disabled</c:if> value="2" ${USER.userType eq 2?"checked":""}/>管理员
                     <input type="radio" name="userType" <c:if test="${USER.userType eq 1}">disabled</c:if> value="3" ${USER.userType eq 3?"checked":""}/>普通用户
 
                 </div>
@@ -130,17 +130,17 @@
         if(confirm("确定修改?")){
             if( checkUserName()&&checkdata()&&checkPhoneReg()){
                 $.ajax({
-                    url:"${pageContext.request.contextPath}/user/update.do",
+                    url:"${pageContext.request.contextPath}/user/update",
                     type:"post",
                     dataType:"text",
                     data:$("#updateForm").serialize(),
                     success:function (data) {
                         if(data=="success"){
                             alert("修改成功");
-                            window.location.href="${pageContext.request.contextPath}/user/getAll.do";
+                            window.location.href="${pageContext.request.contextPath}/user/getAll";
                         }else if(data=="error"){
                             alert("修改失败");
-                            window.location.href="${pageContext.request.contextPath}/user/getAll.do";
+                            window.location.href="${pageContext.request.contextPath}/user/getAll";
                         }
                     },
                     error:function () {

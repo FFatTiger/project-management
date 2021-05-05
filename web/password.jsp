@@ -15,7 +15,7 @@
                 <strong>你现在所在的位置是:</strong>
                 <span>密码修改页面</span>
             </div>
-            <div class="providerAdd">
+            <div class="projectAdd">
                 <form action="#" method="post" id="passForm">
                     <!--div的class 为error是验证错误，ok是验证成功-->
                     <div class="">
@@ -58,14 +58,14 @@
         if(checkeOld()&&checkPass()){
             if(confirm("确定修改吗?")){
                 $.ajax({
-                   url:"${pageContext.request.contextPath}/user/edit.do",
+                   url:"${pageContext.request.contextPath}/user/edit",
                     type:"post",
                     dataType:"text",
                     data:$("#passForm").serialize(),
                     success:function (data) {
                         if(data=="success"){
                             alert("修改成功");
-                            window.location.href="${pageContext.request.contextPath}/user/logout.do";
+                            window.location.href="${pageContext.request.contextPath}/user/logout";
                         }
                         if(data=="PSSWORDERROR"){
                             $("#oldPassword+span").html("密码错误,请重试");

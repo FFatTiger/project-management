@@ -1,12 +1,9 @@
 package cn.wzy.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.*;
+
+import java.util.Date;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,19 +27,20 @@ public class ProjectMember implements Serializable {
 
     //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     //@ApiModelProperty(value = "项目id")
     @TableField("project_id")
-    private String projectId;
+    private Integer projectId;
 
     //@ApiModelProperty(value = "成员id")
     @TableField("user_id")
-    private String userId;
+    private Integer userId;
 
     //@ApiModelProperty(value = "加入时间")
     @TableField("join_time")
-    private LocalDateTime joinTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date joinTime;
 
     //@ApiModelProperty(value = "拥有者")
     @TableField("is_owner")
@@ -63,20 +61,22 @@ public class ProjectMember implements Serializable {
     private Integer version;
 
     //@ApiModelProperty(value = "创建人")
-    @TableField("created_by")
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private String createdBy;
 
     //@ApiModelProperty(value = "创建时间")
     @TableField("created_time")
-    private LocalDateTime createdTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date createdTime;
 
     //@ApiModelProperty(value = "更新人")
-    @TableField("last_modified_by")
+    @TableField(value = "last_modified_by",fill = FieldFill.INSERT_UPDATE)
     private String lastModifiedBy;
 
     //@ApiModelProperty(value = "更新时间")
     @TableField("last_modified_time")
-    private LocalDateTime lastModifiedTime;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date lastModifiedTime;
 
 
 }

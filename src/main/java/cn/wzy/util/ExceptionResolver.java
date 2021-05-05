@@ -13,6 +13,11 @@ public class ExceptionResolver implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/WEB-INF/errorPages/error.jsp");
+        try {
+            throw e;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return mv;
     }
 }

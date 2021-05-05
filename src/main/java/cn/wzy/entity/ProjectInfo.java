@@ -1,16 +1,16 @@
 package cn.wzy.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.*;
+
+import java.util.Date;
 import java.io.Serializable;
+
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ public class ProjectInfo implements Serializable {
 
     //@ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
 
     //@ApiModelProperty(value = "名称")
     @TableField("name")
@@ -42,14 +42,6 @@ public class ProjectInfo implements Serializable {
     //@ApiModelProperty(value = "访问控制类型 0:open, 1:private, 2:custom")
     @TableField("access_control_type")
     private Integer accessControlType;
-
-    //@ApiModelProperty(value = "可以访问项目的权限组（白名单）")
-    @TableField("white_list")
-    private String whiteList;
-
-    //@ApiModelProperty(value = "项目类型ID")
-    @TableField("type_id")
-    private Long typeId;
 
     //@ApiModelProperty(value = "组织id")
     @TableField("group_id")
@@ -68,16 +60,20 @@ public class ProjectInfo implements Serializable {
     private Integer archive;
 
     //@ApiModelProperty(value = "归档时间")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     @TableField("archive_time")
-    private LocalDateTime archiveTime;
+    private Date archiveTime;
 
     //@ApiModelProperty(value = "项目开始日期")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     @TableField("begin_time")
-    private LocalDateTime beginTime;
+    private Date beginTime;
 
     //@ApiModelProperty(value = "项目截止日期")
+    @JSONField(format="yyyy-MM-dd")
     @TableField("end_time")
-    private LocalDateTime endTime;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date endTime;
 
     //@ApiModelProperty(value = "逻辑删除标志 1：已删除， 0：未删除，默认0")
     @TableField("is_delete")
@@ -90,20 +86,22 @@ public class ProjectInfo implements Serializable {
     private Integer version;
 
     //@ApiModelProperty(value = "创建人")
-    @TableField("created_by")
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private String createdBy;
 
     //@ApiModelProperty(value = "创建时间")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     @TableField("created_time")
-    private LocalDateTime createdTime;
+    private Date createdTime;
 
     //@ApiModelProperty(value = "更新人")
-    @TableField("last_modified_by")
+    @TableField(value = "last_modified_by")
     private String lastModifiedBy;
 
     //@ApiModelProperty(value = "更新时间")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     @TableField("last_modified_time")
-    private LocalDateTime lastModifiedTime;
+    private Date lastModifiedTime;
 
 
 }
