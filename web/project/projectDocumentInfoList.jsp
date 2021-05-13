@@ -16,44 +16,19 @@
                 <strong>你现在所在的位置是:</strong>
                 <span>项目管理页面 >> 项目信息页面 >> 项目详情页面</span>
             </div>
-            <div class="layui-card">
-                <div class="layui-card-header">项目：${PROJECT_INFO.name}</div>
-                <div class="layui-card-body">
-                    <p>描述：${PROJECT_INFO.description}</p>
-                </div>
-            </div>
             <div class="search">
                 <span>搜索：</span>
                 <input type="text" id="searchCondition" placeholder="请输入文件名、上传者或文件类型"/>
                 <input type="button" value="查询" onclick="goPage()"/>
+
                 <div class="operation">
-                    <button type="button" value="${PROJECT_INFO.id}"
+                    <button type="button" value="${CUR_PROJECT.id}"
                             style="margin-right: 10px"
                             class="layui-btn layui-btn-sm uploadFile"
                             id="uploadFile">
                         <i class="layui-icon layui-btn-sm">&#xe67c;</i>上传文件
                     </button>
-                    <c:choose>
-                        <c:when test="${PROJECT_INFO.archiveTime == null}">
-                            <a href="${pageContext.request.contextPath}/project/archive/${PROJECT_INFO.id}"
-                               class="layui-btn layui-btn-sm">
-                                <i class="layui-icon layui-btn-sm">&#xe61a;</i>归档
-                            </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="javascript:return false;"
-                               class="layui-btn layui-btn-sm layui-btn-disabled">
-                                <i class="layui-icon layui-btn-sm">&#xe61a;</i>归档
-                            </a>
-                        </c:otherwise>
-                    </c:choose>
-                    <a href="${pageContext.request.contextPath}/project/del/${PROJECT_INFO.id}"
-                            class="layui-btn layui-btn-sm">
-                        <i class="layui-icon layui-btn-sm">&#xe640;</i>删除
-                    </a>
                 </div>
-
-
             </div>
 
             <table class="providerTable" cellpadding="0" cellspacing="0">
@@ -83,9 +58,19 @@
                         <td>${file.audit == true ? '是' :'否'}</td>
                         <td><fmt:formatDate value="${file.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/projectDocument/download/${file.id}"
-                               class="layui-btn layui-btn-sm">审核通过
-                            </a>
+                            <c:choose>
+                                <c:when test="${file.audit == false}">
+                                    <a href="${pageContext.request.contextPath}/projectDocument/audit/${file.id}"
+                                       class="layui-btn layui-btn-sm">审核通过
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="javascript:return false;"
+                                       class="layui-btn layui-btn-sm layui-btn-disabled">审核通过
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+
                             <a href="${pageContext.request.contextPath}/projectDocument/download/${file.id}"
                                class="layui-btn layui-btn-sm">下载
                             </a>
@@ -127,7 +112,7 @@
             },
             done: function (res) {
                 alert("上传成功")
-                window.location.href = '${pageContext.request.contextPath}/projectDocument/list?projectId=${PROJECT_INFO.id}&searchCondition='
+                window.location.href = '${pageContext.request.contextPath}/projectDocument/list?projectId=' + ${CUR_PROJECT.id} + '&searchCondition='
                 //上传完毕回调
             },
             error: function () {
@@ -138,7 +123,7 @@
     })
 
     function goPage() {
-        window.location.href = "${pageContext.request.contextPath}/projectDocument/list?projectId=${PROJECT_INFO.id}&searchCondition=" + $("#searchCondition").val();
+        window.location.href = "${pageContext.request.contextPath}/projectDocument/list?projectId=${CUR_PROJECT.id}&searchCondition=" + $("#searchCondition").val();
     }
 
 </script>

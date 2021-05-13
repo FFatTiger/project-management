@@ -20,5 +20,5 @@ public interface IProjectInfoMapper extends BaseMapper<ProjectInfo> {
      * @param id
      * @return
      */
-    List<ProjectInfo> getByUserId(Long id);
+    List<ProjectInfo> getByUserId(Integer id);
 }

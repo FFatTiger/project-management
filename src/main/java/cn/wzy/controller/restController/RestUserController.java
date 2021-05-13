@@ -2,7 +2,9 @@ package cn.wzy.controller.restController;
 
 
 import cn.wzy.entity.Pager;
+import cn.wzy.entity.ProjectInfo;
 import cn.wzy.entity.User;
+import cn.wzy.service.IProjectInfoService;
 import cn.wzy.service.IUserService;
 import cn.wzy.util.PasswordUtils;
 import org.apache.shiro.SecurityUtils;
@@ -30,11 +32,12 @@ public class RestUserController {
     private IUserService userService;
 
     private Pager pager = new Pager();
-
+    @Autowired
+    private IProjectInfoService projectInfoService;
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(String username,String password){
+    public String login(HttpServletRequest request, String username,String password){
 
         System.out.println("开始登陆"+username+"--"+password);
 
@@ -43,6 +46,10 @@ public class RestUserController {
         try{
             Subject sb = SecurityUtils.getSubject();
             sb.login(token);
+            User user = userService.getUserByUserCode(username);
+            List<ProjectInfo> projectInfos = projectInfoService.getByUserId(user.getId());
+            sb.getSession().setAttribute("PROJECT_INFO", projectInfos);
+            sb.getSession().setAttribute("CUR_PROJECT", projectInfos.iterator().next());
             return "success";
         }catch (ExcessiveAttemptsException e){
             return "NUMOUT";

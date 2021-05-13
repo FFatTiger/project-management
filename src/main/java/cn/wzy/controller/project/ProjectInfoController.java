@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -34,12 +35,22 @@ public class ProjectInfoController extends BaseController {
 
     @GetMapping("/list")
     public ModelAndView getProjectList(ModelAndView mv) {
-        List<ProjectInfo> list = projectInfoService.getByUserId(getCurUser().getId().longValue());
+        List<ProjectInfo> list = projectInfoService.getByUserId(getCurUser().getId());
         mv.setViewName("/project/projectList.jsp");
         mv.addObject("PROJECT_INFO_LIST", list);
 
         return mv;
     }
+
+
+    @GetMapping("/detail/{projectId}")
+    public ModelAndView getProjectDetail(HttpServletRequest request, ModelAndView mv, @PathVariable("projectId") Integer projectId) {
+        mv.setViewName("/project/projectDetail.jsp");
+        ProjectInfo project = projectInfoService.getById(projectId);
+        request.getSession().setAttribute("CUR_PROJECT", project);
+        return mv;
+    }
+
 
     @PostMapping("/save")
     @ResponseBody

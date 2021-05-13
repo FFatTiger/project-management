@@ -55,4 +55,14 @@
     </bean>
 
 
+    <bean class="com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor" id="optimisticLockerInnerInterceptor"/>
+
+    <bean id="mybatisPlusInterceptor" class="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor">
+        <property name="interceptors">
+            <list>
+                <ref bean="optimisticLockerInnerInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

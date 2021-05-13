@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,14 +39,13 @@ public class ProjectDocumentInfoController extends BaseController {
     private final IProjectInfoService projectInfoService;
 
     @GetMapping("/list")
-    public ModelAndView getDocumentInfo(ModelAndView mv,@RequestParam("searchCondition") String searchCondition,@RequestParam("projectId") Integer projectId) {
+    public ModelAndView getDocumentInfo(HttpServletRequest request, ModelAndView mv,@RequestParam("searchCondition") String searchCondition,@RequestParam("projectId") Integer projectId) {
 
         mv.addObject(
                         "FILE_INFO_LIST",
                         projectDocumentInfoService.getDocumentInfoByUserIdAndCondition(projectId, searchCondition));
         mv.addObject("CUR_USER_ID", getCurUser().getId());
-        mv.addObject("PROJECT_INFO", projectInfoService.getById(projectId));
-        mv.setViewName("/project/projectDetailList.jsp");
+        mv.setViewName("/project/projectDocumentInfoList.jsp");
 
         return mv;
     }
@@ -53,10 +53,10 @@ public class ProjectDocumentInfoController extends BaseController {
     @PostMapping("/upload")
     @ResponseBody
     public Map<String, Object> upload(HttpServletRequest request, @RequestParam("file") MultipartFile file, Integer projectId) {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject = new JSONObject();
         ProjectDocumentInfo projectDocumentInfo = new ProjectDocumentInfo();
         if (!file.isEmpty()) {
-            jsonObject = null;
+
             try {
                 System.out.println("springmvc文件上传...");
 
@@ -91,11 +91,11 @@ public class ProjectDocumentInfoController extends BaseController {
                         .setGroupId(0)
                         .setSize(file.getSize())
                         .setPathName(path + filename)
+                        .setAudit(false)
                         .setUploadUserId(getCurUser().getId())
                         .setCreatedBy(getCurUser().getUserName())
                         .setLastModifiedBy(getCurUser().getUserName());
                 projectDocumentInfoService.insertOne(projectDocumentInfo);
-                jsonObject = new JSONObject();
                 jsonObject.put("success", file.getOriginalFilename());
                 return jsonObject;
             } catch (Exception e) {
@@ -139,9 +139,21 @@ public class ProjectDocumentInfoController extends BaseController {
         ProjectDocumentInfo projectDocumentInfo = projectDocumentInfoService.getById(fileId);
         if (getCurUser().getId().equals(projectDocumentInfo.getUploadUserId())) {
             projectDocumentInfoService.removeById(fileId);
-            return "/projectDocument/list?searchCondition=";
+            return "/projectDocument/list?projectId="+projectDocumentInfo.getProjectId()+"&searchCondition=";
         }
-        return "/projectDocument/list?searchCondition=";
+        return "/projectDocument/list?projectId="+projectDocumentInfo.getProjectId()+"&searchCondition=";
 
+    }
+
+
+    @GetMapping("/audit/{fileId}")
+    public String audit(@PathVariable("fileId") Integer fileId) {
+
+        ProjectDocumentInfo projectDocumentInfo = projectDocumentInfoService.getById(fileId);
+        projectDocumentInfo.setAudit(true);
+
+        projectDocumentInfoService.updateById(projectDocumentInfo);
+
+        return "/projectDocument/list?projectId="+projectDocumentInfo.getProjectId()+"&searchCondition=";
     }
 }

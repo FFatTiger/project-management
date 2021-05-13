@@ -7,11 +7,11 @@
         <li class="layui-nav-item"><a href="">控制台</a></li>
         <li class="layui-nav-item"><a href="">用户</a></li>
         <li class="layui-nav-item">
-            <a href="javascript:;">其它系统</a>
+            <a href="javascript:;">切换项目</a>
             <dl class="layui-nav-child">
-                <dd><a href="">邮件管理</a></dd>
-                <dd><a href="">消息管理</a></dd>
-                <dd><a href="">授权管理</a></dd>
+                <c:forEach varStatus="pro" var="p" items="${PROJECT_INFO}">
+                    <dd><a href="${pageContext.request.contextPath}/project/detail/${p.id}">${p.name}</a></dd>
+                </c:forEach>
             </dl>
         </li>
     </ul>
@@ -62,18 +62,34 @@
                     }else{
                         url = data[i].permUrl;
                     }
+
+
                     menu += "<a href='"+url+"'>"
                         + data[i].permName + "</a>"
                     for ( var j = 0; j < data.length; j++) { //继续遍历这几条数据
                         if (data[j].parentCode === data[i].permCode) { //取出这个父元素所对应的子元素
                             menu += "<dl class='layui-nav-child'>"
                             menu += "<dd>"
-                            menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl +"' target='_self'>"
-                                + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                                + data[j].permName + "</a>"
+                            if (data[j].permCode == 1002) {
+                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + ${CUR_PROJECT.id} +"' target='_self'>"
+                                    + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                    + data[j].permName + "</a>"
+                            } else if (data[j].permCode == 1003){
+                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + '?projectId=${CUR_PROJECT.id}&searchCondition=' +"' target='_self'>"
+                                    + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                    + data[j].permName + "</a>"
+
+                            } else {
+
+                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl +"' target='_self'>"
+                                    + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                    + data[j].permName + "</a>"
+                            }
                             menu += "</dd>"
                             menu += "</dl>"
                         }
+
+
                     }
                 }
                 menu += "</li>";

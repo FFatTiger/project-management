@@ -21,7 +21,7 @@ public class ProjectInfoServiceImpl extends ServiceImpl<IProjectInfoMapper, Proj
 
 
     @Override
-    public List<ProjectInfo> getByUserId(Long id) {
+    public List<ProjectInfo> getByUserId(Integer id) {
         return projectInfoMapper.getByUserId(id);
     }
 }

@@ -16,5 +16,5 @@ public interface IProjectInfoService extends IService<ProjectInfo> {
      * @param id
      * @return
      */
-    List<ProjectInfo> getByUserId(Long id);
+    List<ProjectInfo> getByUserId(Integer id);
 }

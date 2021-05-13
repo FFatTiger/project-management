@@ -76,7 +76,7 @@ public class ProjectDocumentInfo implements Serializable {
 
     //@ApiModelProperty(value = "版本号")
     @TableField("version")
-    @Version
+    
     private Integer version;
 
     //@ApiModelProperty(value = "创建人")
