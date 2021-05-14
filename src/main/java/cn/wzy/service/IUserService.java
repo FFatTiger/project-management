@@ -2,11 +2,12 @@ package cn.wzy.service;
 
 import cn.wzy.entity.Pager;
 import cn.wzy.entity.User;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Map;
 
-public interface IUserService {
+public interface IUserService extends IService<User> {
 
     public String delUserById( Integer id);
 
@@ -24,4 +25,5 @@ public interface IUserService {
 
     public Map<String,Object> toMap(User user);
 
+    List<User> getNotInProjectUser(Integer id);
 }

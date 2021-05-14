@@ -74,11 +74,10 @@
                 /provider/get/* = authc,roleFilter[admin,manager,custom]
                 /user/getAll = authc,roleFilter[admin,manager]
                 /user/get/* = authc,roleFilter[admin,manager]
-                /user/** = authc,roleFilter[admin]
                 /bill/** = authc,roleFilter[admin,manager]
                 /provider/** = authc,roleFilter[admin]
                 /** = authc
-
+                /user/getAllUserInfo = authc
             </value>
         </property>
     </bean>

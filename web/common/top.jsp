@@ -79,7 +79,12 @@
                                     + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                                     + data[j].permName + "</a>"
 
-                            } else {
+                            } else if (data[j].permCode == 1004){
+                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + ${CUR_PROJECT.id} + "' target='_self'>"
+                                    + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                                    + data[j].permName + "</a>"
+
+                            } else  {
 
                                 menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl +"' target='_self'>"
                                     + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'

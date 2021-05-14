@@ -1,7 +1,10 @@
 package cn.wzy.dao;
 
 import cn.wzy.entity.ProjectMember;
+import cn.wzy.vo.ProjectMemberVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface IProjectMemberMapper extends BaseMapper<ProjectMember> {
 
+    List<ProjectMemberVO> getMemberVOByProjectId(Integer projectId);
 }

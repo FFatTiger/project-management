@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -75,7 +76,8 @@ public class ProjectDocumentInfoController extends BaseController {
                 // 说明上传文件项
                 // 2. 获取上传文件的名称
                 String filename = file.getOriginalFilename();
-                projectDocumentInfo.setTitle(filename.split("\\.")[0]);
+                String[] types = filename.split("\\.");
+                projectDocumentInfo.setTitle(filename);
                 // 把文件的名称设置唯一值，uuid
                 String uuid = UUID.randomUUID().toString().replace("-", "");
                 filename = uuid + "_" + filename;
@@ -86,10 +88,10 @@ public class ProjectDocumentInfoController extends BaseController {
                 projectDocumentInfo
                         .setProjectId(projectId)
                         .setDownloads(0)
-                        .setFileType(filename.split("\\.")[1])
+                        .setFileType(types[types.length-1])
                         .setFileUrl(path + filename)
                         .setGroupId(0)
-                        .setSize(file.getSize())
+                        .setSize(file.getSize()/1024.0/1024.0)
                         .setPathName(path + filename)
                         .setAudit(false)
                         .setUploadUserId(getCurUser().getId())
@@ -125,7 +127,7 @@ public class ProjectDocumentInfoController extends BaseController {
             os = response.getOutputStream();
             IOUtils.copy(inputStream, os);
             documentInfo.incrementDownloads();
-            projectDocumentInfoService.save(documentInfo);
+            projectDocumentInfoService.updateById(documentInfo);
         } catch (Exception e) {
 
         } finally {

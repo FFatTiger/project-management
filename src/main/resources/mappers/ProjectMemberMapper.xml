@@ -23,4 +23,8 @@
         id, project_id, user_id, join_time, is_owner, authorize, is_delete, version, created_by, created_time, last_modified_by, last_modified_time
     </sql>
 
+    <select id="getMemberVOByProjectId" resultType="cn.wzy.vo.ProjectMemberVO">
+        SELECT userName,authorize,join_time AS joinTime
+        FROM project_member inner join smbms_user su on project_member.user_id = su.id AND project_id = #{projectId,jdbcType=INTEGER}
+    </select>
 </mapper>

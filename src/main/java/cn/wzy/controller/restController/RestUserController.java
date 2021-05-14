@@ -1,32 +1,34 @@
 package cn.wzy.controller.restController;
 
 
+import cn.wzy.controller.BaseController;
 import cn.wzy.entity.Pager;
 import cn.wzy.entity.ProjectInfo;
+import cn.wzy.entity.Role;
 import cn.wzy.entity.User;
 import cn.wzy.service.IProjectInfoService;
+import cn.wzy.service.IRoleService;
 import cn.wzy.service.IUserService;
 import cn.wzy.util.PasswordUtils;
+import cn.wzy.vo.UserPermissionVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-public class RestUserController {
+public class RestUserController extends BaseController {
 
     @Autowired
     private IUserService userService;
@@ -34,6 +36,9 @@ public class RestUserController {
     private Pager pager = new Pager();
     @Autowired
     private IProjectInfoService projectInfoService;
+
+    @Autowired
+    private IRoleService roleService;
 
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -104,6 +109,22 @@ public class RestUserController {
         mv.addObject("PAGE",pager);
         mv.addObject("USERLIST",userList);
         return mv;
+    }
+
+    @GetMapping(value = "/getAllUserInfo")
+    @ResponseBody
+    public UserPermissionVO getAllUserInfoAndPermission(HttpServletRequest request){
+        UserPermissionVO userPermissionVO = new UserPermissionVO();
+        ProjectInfo curProject = (ProjectInfo) request.getSession().getAttribute("CUR_PROJECT");
+        userPermissionVO.setUsers(userService.getNotInProjectUser(curProject.getId()));
+        List<Role> roles = roleService.list();
+        if (hasRole("manager")) {
+            roles = roles.stream().filter(role -> role.getRoleName().equals("custom")).collect(Collectors.toList());
+        } else if (hasRole("custom")){
+            roles.clear();
+        }
+        userPermissionVO.setRoles(roles);
+        return userPermissionVO;
     }
 
 

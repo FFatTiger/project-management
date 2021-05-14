@@ -49,7 +49,7 @@
                     <tr>
                         <td>${p.index+1}</td>
                         <td>${file.title}</td>
-                        <td>${file.size}</td>
+                        <td>${file.size}MB</td>
                         <td>${file.createdBy}</td>
                         <td>${file.groupId}</td>
                         <td>${file.projectId}</td>

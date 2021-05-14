@@ -27,4 +27,5 @@ public interface IUserMapper extends BaseMapper<User>{
 
     public Integer getCount(@Param("name") String name);
 
+    List<User> getNotInProjectUser(Integer id);
 }

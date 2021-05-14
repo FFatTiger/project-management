@@ -6,6 +6,7 @@ import cn.wzy.entity.Pager;
 import cn.wzy.entity.User;
 import cn.wzy.service.IUserService;
 import cn.wzy.util.RedisUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl extends ServiceImpl<IUserMapper, User> implements IUserService {
 
     @Autowired
     private IUserMapper userDao;
@@ -132,5 +133,10 @@ public class UserServiceImpl implements IUserService {
         map.put("status", user.getStatus());
         map.put("salt", user.getSalt());
         return map;
+    }
+
+    @Override
+    public List<User> getNotInProjectUser(Integer id) {
+        return userDao.getNotInProjectUser(id);
     }
 }

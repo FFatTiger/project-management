@@ -40,7 +40,7 @@ public class ProjectDocumentInfo implements Serializable {
 
     //@ApiModelProperty(value = "文件大小")
     @TableField("size")
-    private Long size;
+    private Double size;
 
     //@ApiModelProperty(value = "组织id")
     @TableField("upload_user_id")

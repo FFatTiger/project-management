@@ -17,4 +17,8 @@ public class BaseController {
         }
         return curUser;
     }
+
+    protected boolean hasRole(String role) {
+        return SecurityUtils.getSubject().hasRole(role);
+    }
 }

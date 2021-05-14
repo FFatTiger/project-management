@@ -70,4 +70,7 @@
         </trim>
     </select>
 
+    <select id="getNotInProjectUser" resultType="cn.wzy.entity.User">
+        SELECT u.id,u.userCode,u.userName,u.userPassword,u.gender,u.birthday,u.phone,u.address,u.userType,u.createdBy createBy,u.creationDate,u.modifyBy,u.modifyDate,u.status,u.salt from smbms_user u WHERE u.id NOT IN(SELECT user_id FROM project_member WHERE project_id = #{id})
+    </select>
 </mapper>
