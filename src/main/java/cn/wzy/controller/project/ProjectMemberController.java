@@ -7,6 +7,8 @@ import cn.wzy.entity.ProjectPermission;
 import cn.wzy.service.IProjectMemberService;
 import cn.wzy.service.IProjectPermissionService;
 import cn.wzy.vo.ProjectMemberVO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -38,7 +40,8 @@ public class ProjectMemberController extends BaseController {
     }
 
     @PostMapping("/add")
-    public String addMember(HttpServletRequest request, @RequestParam("userId") Integer userId,  @RequestParam("roleId") Integer roleId) {
+    @ResponseBody
+    public Integer addMember(HttpServletRequest request, @RequestParam("userId") Integer userId,  @RequestParam("roleId") Integer roleId) {
         if (hasRole("custom")) {
             throw new RuntimeException("无权操作");
         } else if (hasRole("manager") && roleId != 3) {
@@ -64,8 +67,38 @@ public class ProjectMemberController extends BaseController {
                 .setUserId(userId);
         projectPermissionService.save(permission);
 
-        return "/projectMember/list/" + curProject.getId();
+        return curProject.getId();
     }
 
+    @GetMapping("/del/{memberId}")
+    public String delMember(HttpServletRequest request, @PathVariable("memberId") Integer memberId) {
+        if (hasRole("custom")) {
+            throw new RuntimeException("无权操作");
+        }
+        ProjectMember projectMember = projectMemberService.getById(memberId);
+        projectMemberService.removeById(memberId);
+
+        ProjectPermission permission = new ProjectPermission();
+        permission.setProjectId(projectMember.getProjectId()).setUserId(projectMember.getUserId());
+        projectPermissionService.remove(new QueryWrapper<>(permission));
+
+        return "/projectMember/list/" + ((ProjectInfo) request.getSession().getAttribute("CUR_PROJECT")).getId();
+    }
+
+    @PostMapping("/updateRole")
+    @ResponseBody
+    public Boolean updateRole(HttpServletRequest request,@RequestParam("userId") Integer userId, @RequestParam("roleId") Integer roleId) {
+        if (hasRole("custom")) {
+            throw new RuntimeException("无权操作");
+        }
+        ProjectInfo curProject = (ProjectInfo) request.getSession().getAttribute("CUR_PROJECT");
+        ProjectPermission permission = new ProjectPermission();
+        permission.setRoleId(roleId);
+        projectPermissionService.lambdaUpdate().eq(ProjectPermission::getProjectId, curProject.getId())
+                .eq(ProjectPermission::getUserId, userId)
+                .update(permission);
+
+        return true;
+    }
 
 }

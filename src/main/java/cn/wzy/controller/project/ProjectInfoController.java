@@ -2,13 +2,11 @@ package cn.wzy.controller.project;
 
 import cn.wzy.controller.BaseController;
 import cn.wzy.dao.IProjectMemberMapper;
-import cn.wzy.entity.ProjectDocumentInfo;
-import cn.wzy.entity.ProjectInfo;
-import cn.wzy.entity.ProjectMember;
-import cn.wzy.entity.User;
+import cn.wzy.entity.*;
 import cn.wzy.service.IProjectDocumentInfoService;
 import cn.wzy.service.IProjectInfoService;
 import cn.wzy.service.IProjectMemberService;
+import cn.wzy.service.IProjectPermissionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -32,6 +30,7 @@ public class ProjectInfoController extends BaseController {
     private final IProjectInfoService projectInfoService;
     private final IProjectMemberService projectMemberService;
     private final IProjectDocumentInfoService projectDocumentInfoService;
+    private final IProjectPermissionService projectPermissionService;
 
     @GetMapping("/list")
     public ModelAndView getProjectList(ModelAndView mv) {
@@ -48,13 +47,14 @@ public class ProjectInfoController extends BaseController {
         mv.setViewName("/project/projectDetail.jsp");
         ProjectInfo project = projectInfoService.getById(projectId);
         request.getSession().setAttribute("CUR_PROJECT", project);
+
         return mv;
     }
 
 
     @PostMapping("/save")
     @ResponseBody
-    public Boolean save(@RequestBody ProjectInfo projectInfo) {
+    public String save(@RequestBody ProjectInfo projectInfo, HttpServletRequest request) {
         projectInfo.setArchive(0);
         projectInfo.setCreatedBy(getCurUser().getUserName());
         projectInfo.setLastModifiedBy(getCurUser().getUserName());
@@ -67,7 +67,18 @@ public class ProjectInfoController extends BaseController {
         projectMember.setAuthorize("1");
         projectMember.setCreatedBy(getCurUser().getUserName());
         projectMember.setLastModifiedBy(getCurUser().getUserName());
-        return projectMemberService.save(projectMember);
+        projectMemberService.save(projectMember);
+
+        ProjectPermission permission = new ProjectPermission();
+        permission.setRoleId(1)
+                .setProjectId(projectInfo.getId())
+                .setUserId(getCurUser().getId());
+        projectPermissionService.save(permission);
+
+        List<ProjectInfo> projectInfos = projectInfoService.getByUserId(getCurUser().getId());
+        request.getSession().setAttribute("PROJECT_INFO", projectInfos);
+
+        return projectInfo.getId().toString();
     }
 
     @GetMapping("/del/{projectId}")

@@ -1,8 +1,9 @@
 package cn.wzy.util;
 
-import cn.wzy.entity.Permission;
-import cn.wzy.entity.User;
+import cn.wzy.entity.*;
 import cn.wzy.service.IPermissionService;
+import cn.wzy.service.IProjectPermissionService;
+import cn.wzy.service.IRoleService;
 import cn.wzy.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -27,12 +28,23 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private IPermissionService permissionService;
 
+    @Autowired
+    private IProjectPermissionService projectPermissionService;
+
+    @Autowired
+    private IRoleService roleService;
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         Subject sb = SecurityUtils.getSubject();
         User user = (User)sb.getPrincipal();
         String username = user.getUserName();
-        String role = user.getRole();
+        ProjectInfo curProject = (ProjectInfo) sb.getSession().getAttribute("CUR_PROJECT");
+        ProjectPermission projectPermission = projectPermissionService.getPermissionByProIdAndUserId(curProject.getId(), user.getId());
+
+        Role roleEntity = roleService.getById(projectPermission.getRoleId());
+
+        String role = roleEntity.getRoleName();
         Set<String> set = new HashSet<>();
         set.add(role);
         SimpleAuthorizationInfo zationInfo = new SimpleAuthorizationInfo();

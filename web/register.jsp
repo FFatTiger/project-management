@@ -14,7 +14,7 @@
     </header>
     <section class="loginCont">
         <div class="register">
-            <form class="layui-form" id="addForm" action="##" method="post">
+            <form class="layui-form" id="addForm" action="1">
                 <!--div的class 为error是验证错误，ok是验证成功-->
                 <input type="hidden" value="<s:principal property='id'></s:principal>" name="createdBy">
                 <div class="layui-form-item">
@@ -84,13 +84,13 @@
                         <label class="layui-form-label" for="userAddress">用户地址</label>
                         <div class="layui-input-block">
                             <input type="text" id="userAddress" name="userAddress" required lay-verify="required"
-                                   placeholder="用户电话" autocomplete="off" class="layui-input">
+                                   placeholder="用户地址" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit lay-filter="projectAdd" id="submit" onclick="submit1()">
+                        <button class="layui-btn" lay-submit lay-filter="formSubmit" id="submit" >
                             注册
                         </button>
                         <button class="layui-btn" type="button" onclick="history.back(-1)">返回</button>
@@ -104,60 +104,29 @@
 <script>
     layui.use('form', function() {
         var form = layui.form;
-    });
 
-    $("#user").blur(function () {
-        checkuser();
-    });
-    $("#mima").blur(function () {
-        checkmima();
-    });
-
-    function checkuser() {
-        var username = $("#user").val();
-        if (username == "") {
-            layer.msg('请输入账号!!', {icon: 5});
-            return false;
-        }
-        return true;
-    }
-
-    function checkmima() {
-        var mima = $("#mima").val();
-        if (mima == "") {
-            layer.msg('请输入密码!!', {icon: 5});
-            return false;
-        }
-        return true;
-    }
-
-    $("#submit").click(function () {
-        if (checkuser() && checkmima()) {
+        form.on('submit(formSubmit)', function(data){
             $.ajax({
-                url: "${pageContext.request.contextPath}/user/login",
-                type: "post",
-                dataType: "text",
-                data: $("#loginForm").serialize(),
+                url:"${pageContext.request.contextPath}/user/add",
+                type:"post",
+                dataType:"application/json; charset=utf-8",
+                data:$("#addForm").serialize(),
                 success: function (data) {
-                    if (data == "success") {
-                        window.location.href = "${pageContext.request.contextPath}/welcome.jsp";
+                    if (data === true) {
+                        alert("添加成功");
+                    } else if (data === false) {
+                        alert("添加失败");
                     }
-                    if (data == "error") {
-                        layer.msg('服务器异常!!', {icon: 5});
-                        $("#mima").val("");
-                    }
-                    if (data == "NOEXITS" || data == "passError") {
-                        layer.msg('账号或密码错误，请重试!!', {icon: 5});
-                        $("#mima").val("");
-                    }
-                    if (data == "NUMOUT") {
-                        layer.msg('超过五次登陆失败,请30分钟后重试', {icon: 5});
-                        $("#mima").val("");
-                    }
+                    window.location.href = "${pageContext.request.contextPath}/project/list";
+                },
+                error: function () {
+                    alert('异常')
                 }
-            });
-        }
+            })
+            return true;
+        });
     });
+
 
 
 </script>

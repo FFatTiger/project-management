@@ -45,7 +45,7 @@ public class ProjectInfo implements Serializable {
 
     //@ApiModelProperty(value = "组织id")
     @TableField("group_id")
-    private Long groupId;
+    private Long groupId = 0L;
 
     //@ApiModelProperty(value = "是否私有 1:是 0:否")
     @TableField("is_private")

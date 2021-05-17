@@ -29,6 +29,7 @@
 
     <!-- Realm实现 -->
     <bean id="userRealm" class="cn.wzy.util.UserRealm">
+        <property name="cacheManager" ref="cacheManager"></property>
         <property name="credentialsMatcher" ref="credentialsMatcher"></property>
     </bean>
 
@@ -58,11 +59,12 @@
                 /login.jsp = anon
                 /register.jsp = anon
                 /user/login = anon
-                /css/* = anon
-                /js/* = anon
-                /laydate/* = anon
-                /img/* = anon
-                /common/* = anon
+                /user/add = anon
+                /css/** = anon
+                /js/** = anon
+                /laydate/** = anon
+                /img/** = anon
+                /common/** = anon
                 /user/edit = authc
                 /user/logout = authc
                 /billAdd.jsp = authc,roleFilter[admin,manager]
@@ -74,10 +76,9 @@
                 /provider/get/* = authc,roleFilter[admin,manager,custom]
                 /user/getAll = authc,roleFilter[admin,manager]
                 /user/get/* = authc,roleFilter[admin,manager]
-                /bill/** = authc,roleFilter[admin,manager]
-                /provider/** = authc,roleFilter[admin]
-                /** = authc
                 /user/getAllUserInfo = authc
+                /** = authc
+
             </value>
         </property>
     </bean>

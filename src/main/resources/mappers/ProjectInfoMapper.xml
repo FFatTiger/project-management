@@ -33,6 +33,6 @@
         pi.id, pi.name, pi.description, pi.access_control_type, pi.group_id, pi.is_private, pi.open_prefix, pi.archive, pi.archive_time, pi.begin_time, pi.end_time, pi.is_delete as deleted, pi.version, pi.created_by, pi.created_time, pi.last_modified_by, pi.last_modified_time
         from project_info pi
         inner join project_member pm on pi.id = pm.project_id
-        where pm.user_id = #{id,jdbcType=BIGINT} and pi.is_delete = '0'
+        where pm.user_id = #{id,jdbcType=BIGINT} and pi.is_delete = '0' and pm.is_delete = '0'
     </select>
 </mapper>

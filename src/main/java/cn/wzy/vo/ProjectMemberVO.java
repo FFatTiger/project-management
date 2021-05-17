@@ -13,9 +13,13 @@ import java.util.Date;
 @Accessors(chain = true)
 public class ProjectMemberVO {
 
+    private Integer id;
+
     private String userName;
 
     private Date joinTime;
+
+    private Integer roleId;
 
     private String authorize;
 }

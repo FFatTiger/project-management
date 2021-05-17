@@ -14,7 +14,7 @@
         <div class="center">
             <div class="location">
                 <strong>你现在所在的位置是:</strong>
-                <span>项目管理页面 >> 项目信息页面 >> 项目详情页面</span>
+                <span>项目管理页面 >> 项目文件页面</span>
             </div>
             <div class="search">
                 <span>搜索：</span>
@@ -58,27 +58,38 @@
                         <td>${file.audit == true ? '是' :'否'}</td>
                         <td><fmt:formatDate value="${file.createdTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>
-                            <c:choose>
-                                <c:when test="${file.audit == false}">
-                                    <a href="${pageContext.request.contextPath}/projectDocument/audit/${file.id}"
-                                       class="layui-btn layui-btn-sm">审核通过
-                                    </a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="javascript:return false;"
-                                       class="layui-btn layui-btn-sm layui-btn-disabled">审核通过
-                                    </a>
-                                </c:otherwise>
-                            </c:choose>
+
+                            <s:hasAnyRoles name="admin,manager">
+                                <c:choose>
+                                    <c:when test="${file.audit == false}">
+                                        <a href="${pageContext.request.contextPath}/projectDocument/audit/${file.id}"
+                                           class="layui-btn layui-btn-sm">审核通过
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="javascript:return false;"
+                                           class="layui-btn layui-btn-sm layui-btn-disabled">审核通过
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </s:hasAnyRoles>
 
                             <a href="${pageContext.request.contextPath}/projectDocument/download/${file.id}"
                                class="layui-btn layui-btn-sm">下载
                             </a>
-                            <c:if test="${file.uploadUserId == CUR_USER_ID}">
+                            <s:hasRole name="custom">
+                                <c:if test="${file.uploadUserId == CUR_USER_ID}">
+                                    <a href="${pageContext.request.contextPath}/projectDocument/del/${file.id}"
+                                       class="layui-btn layui-btn-sm">删除
+                                    </a>
+                                </c:if>
+                            </s:hasRole>
+                            <s:hasAnyRoles name="admin,manager">
                                 <a href="${pageContext.request.contextPath}/projectDocument/del/${file.id}"
                                    class="layui-btn layui-btn-sm">删除
                                 </a>
-                            </c:if>
+                            </s:hasAnyRoles>
+
                         </td>
                     </tr>
                 </c:forEach>

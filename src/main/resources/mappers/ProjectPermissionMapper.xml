@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.wzy.dao.IProjectPermissionMapper">
+
+    <select id="getPermissionByProIdAndUserId" resultType="cn.wzy.entity.ProjectPermission">
+        SELECT p.id id, p.project_id projectId, p.user_id userId, p.role_id roleId
+        FROM project_permission p
+        WHERE p.project_id = #{projectId} AND p.user_id = #{userId}
+        LIMIT 1
+    </select>
+</mapper>

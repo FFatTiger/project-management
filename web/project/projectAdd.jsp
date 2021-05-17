@@ -44,16 +44,16 @@
                         </select>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">可以访问的组织</label>
-                    <div class="layui-input-block">
-                        <select name="groupId" lay-verify="required">
-                            <c:forEach varStatus="p" var="group" items="${IS_OWNER_GROUP_LIST}">
-                                <option value="${group.id}">${group.groupName}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
+<%--                <div class="layui-form-item">--%>
+<%--                    <label class="layui-form-label">可以访问的组织</label>--%>
+<%--                    <div class="layui-input-block">--%>
+<%--                        <select name="groupId" lay-verify="required">--%>
+<%--                            <c:forEach varStatus="p" var="group" items="${IS_OWNER_GROUP_LIST}">--%>
+<%--                                <option value="${group.id}">${group.groupName}</option>--%>
+<%--                            </c:forEach>--%>
+<%--                        </select>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <div class="layui-form-item">
                     <label class="layui-form-label">是否私有</label>
                     <div class="layui-input-block">
@@ -105,18 +105,10 @@
                 contentType:"application/json; charset=utf-8",
                 data:JSON.stringify(data.field),
                 success: function (data) {
-                    if (data === true) {
-                        alert("添加成功");
-                    } else if (data === false) {
-                        alert("添加失败");
-                    }
-                    window.location.href = "${pageContext.request.contextPath}/project/list";
-                },
-                error: function () {
-                    alert('异常')
+                    window.location.href = "${pageContext.request.contextPath}/project/detail/" + data;
                 }
             })
-            return true;
+            return false;
         });
     });
 

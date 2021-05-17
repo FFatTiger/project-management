@@ -8,12 +8,17 @@
         <li class="layui-nav-item"><a href="">用户</a></li>
         <li class="layui-nav-item">
             <a href="javascript:;">切换项目</a>
-            <dl class="layui-nav-child">
-                <c:forEach varStatus="pro" var="p" items="${PROJECT_INFO}">
-                    <dd><a href="${pageContext.request.contextPath}/project/detail/${p.id}">${p.name}</a></dd>
-                </c:forEach>
-            </dl>
+            <c:if test="${!PROJECT_INFO.isEmpty()}">
+                <dl class="layui-nav-child">
+
+                    <c:forEach varStatus="pro" var="p" items="${PROJECT_INFO}">
+                        <dd><a href="${pageContext.request.contextPath}/project/detail/${p.id}">${p.name}</a></dd>
+                    </c:forEach>
+                </dl>
+            </c:if>
         </li>
+        <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/project/projectAdd.jsp">新建项目</a></li>
+
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">

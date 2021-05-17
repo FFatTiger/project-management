@@ -18,6 +18,10 @@ public class BaseController {
         return curUser;
     }
 
+    protected void setCurUser(User user) {
+        this.curUser = user;
+    }
+
     protected boolean hasRole(String role) {
         return SecurityUtils.getSubject().hasRole(role);
     }

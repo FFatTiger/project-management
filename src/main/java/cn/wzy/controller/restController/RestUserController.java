@@ -17,12 +17,14 @@ import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,11 +52,16 @@ public class RestUserController extends BaseController {
 
         try{
             Subject sb = SecurityUtils.getSubject();
-            sb.login(token);
             User user = userService.getUserByUserCode(username);
+            setCurUser(user);
+            sb.login(token);
             List<ProjectInfo> projectInfos = projectInfoService.getByUserId(user.getId());
             sb.getSession().setAttribute("PROJECT_INFO", projectInfos);
-            sb.getSession().setAttribute("CUR_PROJECT", projectInfos.iterator().next());
+            ProjectInfo projectInfo = null;
+            if (!projectInfos.isEmpty()) {
+                projectInfo = projectInfos.iterator().next();
+            }
+            sb.getSession().setAttribute("CUR_PROJECT", projectInfo);
             return "success";
         }catch (ExcessiveAttemptsException e){
             return "NUMOUT";
@@ -118,6 +125,7 @@ public class RestUserController extends BaseController {
         ProjectInfo curProject = (ProjectInfo) request.getSession().getAttribute("CUR_PROJECT");
         userPermissionVO.setUsers(userService.getNotInProjectUser(curProject.getId()));
         List<Role> roles = roleService.list();
+
         if (hasRole("manager")) {
             roles = roles.stream().filter(role -> role.getRoleName().equals("custom")).collect(Collectors.toList());
         } else if (hasRole("custom")){
@@ -195,7 +203,12 @@ public class RestUserController extends BaseController {
         User user = new User();
         user.setSalt(salt);
         user.setUserCode(req.getParameter("userId"));
-        user.setCreatedBy(Integer.parseInt(req.getParameter("createdBy")));
+
+        String createdBy = req.getParameter("createdBy");
+        if (!StringUtils.hasLength(createdBy)) {
+            createdBy = "0";
+        }
+        user.setCreatedBy(Integer.parseInt(createdBy));
         user.setUserName(req.getParameter("userName"));
         user.setUserPassword(PasswordUtils.enctypePassword(req.getParameter("userpassword"),salt));
         user.setGender(Integer.parseInt(req.getParameter("gender")));
@@ -206,7 +219,7 @@ public class RestUserController extends BaseController {
         }
         user.setPhone(req.getParameter("userphone"));
         user.setAddress(req.getParameter("userAddress"));
-        user.setUserType(Integer.parseInt(req.getParameter("userType")));
+        user.setUserType(3);
         String s = userService.saveUserById(user);
         return s;
     }

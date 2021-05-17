@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface IProjectPermissionService extends IService<ProjectPermission> {
 
+    ProjectPermission getPermissionByProIdAndUserId(Integer projectId, Integer userId);
 }

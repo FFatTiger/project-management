@@ -18,7 +18,7 @@
             </div>
             <div class="layui-layout-right">
                 <s:hasRole name="custom">
-                    <button class="layui-btn layui-btn-sm addMember layui-btn-disabled" onclick="addMemberClick()">增加成员</button>
+                    <button class="layui-btn layui-btn-sm addMember layui-btn-disabled" >增加成员</button>
                 </s:hasRole>
                 <s:hasAnyRoles name="admin,manager">
                     <button class="layui-btn layui-btn-sm addMember" onclick="addMemberClick()">增加成员</button>
@@ -39,9 +39,24 @@
                         <td><fmt:formatDate value="${p.joinTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                         <td>${p.authorize eq 1?"所有者":p.authorize eq 2?"管理员":"普通用户"}</td>
                         <td>
-                            <div>
-                                <a class="layui-btn layui-btn-sm" href="${pageContext.request.contextPath}">详情</a>
-                            </div>
+
+                            <s:hasRole name="admin">
+                                <a class="layui-btn layui-btn-sm" onclick="updateRole()">修改权限</a>
+                                <a class="layui-btn layui-btn-sm" href="${pageContext.request.contextPath}/projectMember/del/${p.id}">移除用户</a>
+                            </s:hasRole>
+
+                            <s:hasRole name="manager">
+                                <c:choose>
+                                    <c:when test="${p.roleId == 3}">
+                                        <a class="layui-btn layui-btn-sm" href="${pageContext.request.contextPath}/projectMember/del/${p.id}">移除用户</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="javascript:return false;"
+                                           class="layui-btn layui-btn-sm layui-btn-disabled">移除用户
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </s:hasRole>
                         </td>
                     </tr>
                 </c:forEach>
@@ -59,6 +74,14 @@
                 <div class="layui-form-item" id="roleDiv">
                     <label class="layui-form-label">权限</label>
                     <div class="layui-input-block" id="role">
+                    </div>
+                </div>
+            </form>
+
+            <form class="layui-form updateRoleForm" id="roleSelect" style="display:none; margin-top: 30px">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">权限</label>
+                    <div class="layui-input-block" id="roleId">
                     </div>
                 </div>
             </form>
@@ -110,6 +133,64 @@
         });
     });
 
+    function updateRole() {
+        $.ajax({
+            url: "${pageContext.request.contextPath}/user/getAllUserInfo",
+            type: "get",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                let radios = '';
+                for (let i = 0; i < data.roles.length; i++) {
+                    if (i == 0) {
+                        radios += '<input type="radio" name="roleId" value="' + data.roles[i].id + '" title="' + data.roles[i].roleDesc + '" checked>\n';
+                    } else {
+                        radios += '<input type="radio" name="roleId" value="' + data.roles[i].id + '" title="' + data.roles[i].roleDesc + '">\n';
+                    }
+                }
+                if (radios.length > 0) {
+                    $("#roleId").html(radios);
+                }
+
+                layui.use('form', function () {
+                });
+
+                layer.open({
+                    type: 1,
+                    title: '修改权限',
+                    content: $("#roleSelect"),
+                    shade: 0,
+                    btn: ['保存', '重置'],
+                    btn1: function (index, layero) {
+                        $.ajax({
+                            url:"${pageContext.request.contextPath}/projectMember/updateRole",
+                            type:"post",
+                            data: $(".updateRoleForm").serialize(),
+                            success: function (data) {
+                                if (data === true) {
+                                    alert("添加成功");
+                                } else if (data === false) {
+                                    alert("添加失败");
+                                }
+                                window.location.href = "${pageContext.request.contextPath}/project/list";
+                            },
+                            error: function () {
+                                alert('异常')
+                            }
+                        })
+                    },
+                    btn2: function (index, layero) {
+                        alert("2222");
+                        return false;
+                    },
+                    cancel: function (layero, index) {
+                        layer.closeAll();
+                    }
+
+                });
+            }
+        });
+
+    }
 
     //页面层-自定义
     function addMemberClick() {
