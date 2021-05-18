@@ -102,6 +102,10 @@
 </section>
 
 <script>
+    laydate.render({
+        elem: '#data' //指定元素
+    });
+
     layui.use('form', function() {
         var form = layui.form;
 
