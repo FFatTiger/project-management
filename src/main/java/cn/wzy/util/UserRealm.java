@@ -40,22 +40,26 @@ public class UserRealm extends AuthorizingRealm {
         User user = (User)sb.getPrincipal();
         String username = user.getUserName();
         ProjectInfo curProject = (ProjectInfo) sb.getSession().getAttribute("CUR_PROJECT");
-        ProjectPermission projectPermission = projectPermissionService.getPermissionByProIdAndUserId(curProject.getId(), user.getId());
+        SimpleAuthorizationInfo zationInfo = null;
+        if (curProject != null) {
+            ProjectPermission projectPermission = projectPermissionService.getPermissionByProIdAndUserId(curProject.getId(), user.getId());
 
-        Role roleEntity = roleService.getById(projectPermission.getRoleId());
 
-        String role = roleEntity.getRoleName();
-        Set<String> set = new HashSet<>();
-        set.add(role);
-        SimpleAuthorizationInfo zationInfo = new SimpleAuthorizationInfo();
-        zationInfo.setRoles(set);
+            Role roleEntity = roleService.getById(projectPermission.getRoleId());
 
-        List<Permission> list = permissionService.getAllNotMenuByUserType(user.getUserType());
-        Set<String> perms = new HashSet<>();
-        for (Permission p :list) {
-            perms.add(p.getPermUrl());
+            String role = roleEntity.getRoleName();
+            Set<String> set = new HashSet<>();
+            set.add(role);
+            zationInfo = new SimpleAuthorizationInfo();
+            zationInfo.setRoles(set);
+
+            List<Permission> list = projectPermissionService.getAllNotMenuByUserType(roleEntity.getId());
+            Set<String> perms = new HashSet<>();
+            for (Permission p :list) {
+                perms.add(p.getPermUrl());
+            }
+            zationInfo.setStringPermissions(perms);
         }
-        zationInfo.setStringPermissions(perms);
         return zationInfo;
     }
 

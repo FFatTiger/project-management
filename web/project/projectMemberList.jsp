@@ -16,13 +16,19 @@
                 <strong>你现在所在的位置是:</strong>
                 <span>项目管理页面 >> 项目信息页面</span>
             </div>
-            <div class="layui-layout-right">
-                <s:hasRole name="custom">
-                    <button class="layui-btn layui-btn-sm addMember layui-btn-disabled" >增加成员</button>
-                </s:hasRole>
-                <s:hasAnyRoles name="admin,manager">
-                    <button class="layui-btn layui-btn-sm addMember" onclick="addMemberClick()">增加成员</button>
-                </s:hasAnyRoles>
+            <div class="search">
+                <span>搜索：</span>
+                <input type="text" id="searchCondition" placeholder="搜索用户名"/>
+                <input type="button" value="查询" onclick="goPage()"/>
+
+                <div class="operation">
+                    <s:hasRole name="custom">
+                        <button class="layui-btn layui-btn-sm addMember layui-btn-disabled" >增加成员</button>
+                    </s:hasRole>
+                    <s:hasAnyRoles name="admin,manager">
+                        <button class="layui-btn layui-btn-sm addMember" onclick="addMemberClick()">增加成员</button>
+                    </s:hasAnyRoles>
+                </div>
             </div>
             <table class="providerTable" cellpadding="0" cellspacing="0">
                 <tr class="firstTr">
@@ -41,7 +47,7 @@
                         <td>
 
                             <s:hasRole name="admin">
-                                <a class="layui-btn layui-btn-sm" onclick="updateRole()">修改权限</a>
+                                <a class="layui-btn layui-btn-sm" onclick="updateRole(${p.userId}, ${p.id})">修改权限</a>
                                 <a class="layui-btn layui-btn-sm" href="${pageContext.request.contextPath}/projectMember/del/${p.id}">移除用户</a>
                             </s:hasRole>
 
@@ -79,6 +85,7 @@
             </form>
 
             <form class="layui-form updateRoleForm" id="roleSelect" style="display:none; margin-top: 30px">
+
                 <div class="layui-form-item">
                     <label class="layui-form-label">权限</label>
                     <div class="layui-input-block" id="roleId">
@@ -133,13 +140,19 @@
         });
     });
 
-    function updateRole() {
+
+
+    function updateRole(userId, memberId) {
         $.ajax({
             url: "${pageContext.request.contextPath}/user/getAllUserInfo",
             type: "get",
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 let radios = '';
+                let userIdInput = '<input type="hidden" name="userId" value=' + userId + '>\n';
+                userIdInput += '<input type="hidden" name="memberId" value=' + memberId + '>\n';
+                $(".updateRoleForm").append(userIdInput);
+
                 for (let i = 0; i < data.roles.length; i++) {
                     if (i == 0) {
                         radios += '<input type="radio" name="roleId" value="' + data.roles[i].id + '" title="' + data.roles[i].roleDesc + '" checked>\n';
@@ -152,6 +165,9 @@
                 }
 
                 layui.use('form', function () {
+                    var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+                    form.render();
+                    form.render('input' ,'updateRoleForm'); //刷新select选择框渲染
                 });
 
                 layer.open({
@@ -167,14 +183,14 @@
                             data: $(".updateRoleForm").serialize(),
                             success: function (data) {
                                 if (data === true) {
-                                    alert("添加成功");
+                                    alert("更新成功");
                                 } else if (data === false) {
-                                    alert("添加失败");
+                                    alert("更新失败");
                                 }
-                                window.location.href = "${pageContext.request.contextPath}/project/list";
+                                window.location.href = "${pageContext.request.contextPath}/projectMember/list?projectId=${CUR_PROJECT.id}&searchCondition=";
                             },
                             error: function () {
-                                alert('异常')
+                                alert('更新异常')
                             }
                         })
                     },
@@ -219,6 +235,9 @@
                     $("#roleDiv").remove();
                 }
                 layui.use('form', function () {
+                    var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+                    form.render();
+                    form.render('input' ,'addMemberForm'); //刷新select选择框渲染
                 });
                 layer.open({
                     type: 1,
@@ -237,7 +256,7 @@
                                 } else if (data === false) {
                                     alert("添加失败");
                                 }
-                                window.location.href = "${pageContext.request.contextPath}/projectMember/list/${CUR_PROJECT.id}";
+                                window.location.href = "${pageContext.request.contextPath}/projectMember/list?projectId=${CUR_PROJECT.id}&searchCondition=";
                             },
                             error: function () {
                                 alert('异常')
@@ -263,7 +282,9 @@
 
     }
 
-
+    function goPage() {
+        window.location.href = "${pageContext.request.contextPath}/projectMember/list?projectId=${CUR_PROJECT.id}&searchCondition=" + $("#searchCondition").val();
+    }
     // var uploadInst = upload.render({
     //     elem: '.uploadFile' //绑定元素
     //     , url: $('#uploadFile').attr('value') //上传接口

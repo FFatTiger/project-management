@@ -9,7 +9,6 @@
         <result column="title" property="title" />
         <result column="size" property="size" />
         <result column="upload_user_id" property="uploadUserId"/>
-        <result column="group_id" property="groupId" />
         <result column="project_id" property="projectId" />
         <result column="downloads" property="downloads" />
         <result column="audit" property="audit" />
@@ -29,7 +28,7 @@
     </sql>
 
     <select id="getDocumentInfoByProjectIdAndCondition" resultMap="BaseResultMap">
-        select  pdi.id, pdi.path_name, pdi.title,  pdi.size, pdi.upload_user_id, pdi.group_id, pdi.project_id, pdi.downloads,pdi.audit, pdi.file_type, pdi.file_url,  pdi.is_delete, pdi.version, pdi.created_by, pdi.created_time, pdi.last_modified_by, pdi.last_modified_time
+        select  pdi.id, pdi.path_name, pdi.title,  pdi.size, pdi.upload_user_id, pdi.project_id, pdi.downloads,pdi.audit, pdi.file_type, pdi.file_url,  pdi.is_delete, pdi.version, pdi.created_by, pdi.created_time, pdi.last_modified_by, pdi.last_modified_time
         from
         project_document_info pdi
         where

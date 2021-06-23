@@ -7,9 +7,11 @@ import cn.wzy.service.IProjectDocumentInfoService;
 import cn.wzy.service.IProjectInfoService;
 import cn.wzy.service.IProjectMemberService;
 import cn.wzy.service.IProjectPermissionService;
+import cn.wzy.util.UserRealm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,10 +46,17 @@ public class ProjectInfoController extends BaseController {
 
     @GetMapping("/detail/{projectId}")
     public ModelAndView getProjectDetail(HttpServletRequest request, ModelAndView mv, @PathVariable("projectId") Integer projectId) {
+
+        if (projectId == -1) {
+            mv.setViewName("/project/projectNull.jsp");
+            return mv;
+        }
+
         mv.setViewName("/project/projectDetail.jsp");
         ProjectInfo project = projectInfoService.getById(projectId);
         request.getSession().setAttribute("CUR_PROJECT", project);
-
+        RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+        reloadAuthorizing();
         return mv;
     }
 
@@ -78,6 +87,7 @@ public class ProjectInfoController extends BaseController {
         List<ProjectInfo> projectInfos = projectInfoService.getByUserId(getCurUser().getId());
         request.getSession().setAttribute("PROJECT_INFO", projectInfos);
 
+        reloadAuthorizing();
         return projectInfo.getId().toString();
     }
 

@@ -13,6 +13,8 @@ import java.util.Date;
 @Accessors(chain = true)
 public class ProjectMemberVO {
 
+    private Integer userId;
+
     private Integer id;
 
     private String userName;

@@ -30,9 +30,9 @@ import java.util.List;
 public class ProjectMemberController extends BaseController {
     private final IProjectMemberService projectMemberService;
     private final IProjectPermissionService projectPermissionService;
-    @GetMapping("/list/{projectId}")
-    public ModelAndView getProjectMembersById(HttpServletRequest request, ModelAndView mav, @PathVariable Integer projectId) {
-        List<ProjectMemberVO> projectMemberList = projectMemberService.getMemberVOByProjectId(projectId);
+    @GetMapping("/list")
+    public ModelAndView getProjectMembersById(HttpServletRequest request, ModelAndView mav, @RequestParam("searchCondition") String searchCondition,@RequestParam("projectId") Integer projectId) {
+        List<ProjectMemberVO> projectMemberList = projectMemberService.getMemberVOByProjectId(projectId, searchCondition);
         mav.addObject("PROJECT_MEMBER_LIST", projectMemberList);
         mav.setViewName("/project/projectMemberList.jsp");
 
@@ -82,12 +82,12 @@ public class ProjectMemberController extends BaseController {
         permission.setProjectId(projectMember.getProjectId()).setUserId(projectMember.getUserId());
         projectPermissionService.remove(new QueryWrapper<>(permission));
 
-        return "/projectMember/list/" + ((ProjectInfo) request.getSession().getAttribute("CUR_PROJECT")).getId();
+        return "/projectMember/list?searchCondition=&projectId=" + ((ProjectInfo) request.getSession().getAttribute("CUR_PROJECT")).getId();
     }
 
     @PostMapping("/updateRole")
     @ResponseBody
-    public Boolean updateRole(HttpServletRequest request,@RequestParam("userId") Integer userId, @RequestParam("roleId") Integer roleId) {
+    public Boolean updateRole(HttpServletRequest request,@RequestParam("memberId") Integer memberId, @RequestParam("userId") Integer userId, @RequestParam("roleId") Integer roleId) {
         if (hasRole("custom")) {
             throw new RuntimeException("无权操作");
         }
@@ -97,6 +97,12 @@ public class ProjectMemberController extends BaseController {
         projectPermissionService.lambdaUpdate().eq(ProjectPermission::getProjectId, curProject.getId())
                 .eq(ProjectPermission::getUserId, userId)
                 .update(permission);
+
+        ProjectMember projectMember = new ProjectMember();
+        projectMember.setId(memberId)
+                .setAuthorize(roleId.toString());
+
+        projectMemberService.updateById(projectMember);
 
         return true;
     }

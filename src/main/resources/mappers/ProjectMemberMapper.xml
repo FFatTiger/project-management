@@ -34,10 +34,16 @@
     </sql>
 
     <select id="getMemberVOByProjectId" resultType="cn.wzy.vo.ProjectMemberVO">
-        SELECT project_member.id AS id , userName, authorize, join_time AS joinTime, project_permission.role_id AS roleId
-        FROM project_permission inner join project_member
-        on project_permission.project_id = project_member.project_id AND project_permission.user_id = project_member.user_id
-        inner join smbms_user su
-        on project_member.user_id = su.id AND project_member.project_id = #{projectId,jdbcType=INTEGER} AND project_member.is_delete = '0'
+        SELECT project_member.id AS id, project_member.user_id userId, userName, authorize, join_time AS joinTime, project_permission.role_id AS roleId
+                FROM project_permission
+                inner join project_member
+                on project_permission.project_id = project_member.project_id AND
+                   project_permission.user_id = project_member.user_id
+                inner join smbms_user su
+                on project_member.user_id = su.id AND project_member.project_id = #{projectId,jdbcType=INTEGER} AND
+                   project_member.is_delete = '0'
+        <if test="searchCondition != null and searchCondition != ''">
+            AND su.userName LIKE '%${searchCondition}%'
+        </if>
     </select>
 </mapper>

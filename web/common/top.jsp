@@ -76,7 +76,7 @@
                             menu += "<dl class='layui-nav-child'>"
                             menu += "<dd>"
                             if (data[j].permCode == 1002) {
-                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + ${CUR_PROJECT.id} +"' target='_self'>"
+                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + '${CUR_PROJECT.id == null ? "-1" : CUR_PROJECT.id}' +"' target='_self'>"
                                     + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                                     + data[j].permName + "</a>"
                             } else if (data[j].permCode == 1003){
@@ -85,7 +85,7 @@
                                     + data[j].permName + "</a>"
 
                             } else if (data[j].permCode == 1004){
-                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + ${CUR_PROJECT.id} + "' target='_self'>"
+                                menu += "<a href='${pageContext.request.contextPath}"+data[j].permUrl + '?projectId=${CUR_PROJECT.id}&searchCondition=' + "' target='_self'>"
                                     + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
                                     + data[j].permName + "</a>"
 

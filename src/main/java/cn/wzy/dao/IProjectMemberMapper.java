@@ -3,6 +3,7 @@ package cn.wzy.dao;
 import cn.wzy.entity.ProjectMember;
 import cn.wzy.vo.ProjectMemberVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,5 @@ import java.util.List;
  */
 public interface IProjectMemberMapper extends BaseMapper<ProjectMember> {
 
-    List<ProjectMemberVO> getMemberVOByProjectId(Integer projectId);
+    List<ProjectMemberVO> getMemberVOByProjectId(@Param("projectId") Integer projectId, @Param("searchCondition") String searchCondition);
 }

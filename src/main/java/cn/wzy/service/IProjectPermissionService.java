@@ -1,5 +1,6 @@
 package cn.wzy.service;
 
+import cn.wzy.entity.Permission;
 import cn.wzy.entity.ProjectMember;
 import cn.wzy.entity.ProjectPermission;
 import cn.wzy.vo.ProjectMemberVO;
@@ -14,4 +15,10 @@ import java.util.List;
 public interface IProjectPermissionService extends IService<ProjectPermission> {
 
     ProjectPermission getPermissionByProIdAndUserId(Integer projectId, Integer userId);
+
+    List<Permission> getAllPermissionByUserType(Integer roleId);
+
+    List<Permission> getAllNotMenuByUserType(Integer roleId);
+
+
 }

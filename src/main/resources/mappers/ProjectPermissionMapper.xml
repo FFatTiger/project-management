@@ -8,4 +8,19 @@
         WHERE p.project_id = #{projectId} AND p.user_id = #{userId}
         LIMIT 1
     </select>
+
+    <select id="getAllPermissionByUserType" resultType="cn.wzy.entity.Permission">
+        select p.id id,p.perm_code permCode,p.perm_name permName,p.perm_url permUrl,p.parent_code parentCode,p.isMenu isMenu
+        from smbms_permission p,smbms_perm_role pr
+        where p.id=pr.perm_id and pr.role_id=#{roleId,jdbcType=INTEGER} and isMenu=0
+        order by p.perm_code asc
+    </select>
+
+    <select id="getAllNotMenuByUserType" parameterType="java.lang.Integer" resultType="cn.wzy.entity.Permission">
+        select p.id id,p.perm_code permCode,p.perm_name permName,p.perm_url permUrl,p.parent_code parentCode,p.isMenu isMenu
+        from smbms_permission p,smbms_perm_role pr
+        where p.id=pr.perm_id and pr.role_id=#{roleId,jdbcType=INTEGER} and isMenu=1
+        order by p.id asc
+    </select>
+
 </mapper>

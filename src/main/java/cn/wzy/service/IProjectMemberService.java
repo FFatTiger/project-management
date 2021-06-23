@@ -12,5 +12,5 @@ import java.util.List;
  * @date 2021/4/22
  */
 public interface IProjectMemberService extends IService<ProjectMember> {
-    List<ProjectMemberVO> getMemberVOByProjectId(Integer projectId);
+    List<ProjectMemberVO> getMemberVOByProjectId(Integer projectId, String searchCondition);
 }

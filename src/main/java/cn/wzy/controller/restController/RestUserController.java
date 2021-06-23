@@ -53,7 +53,6 @@ public class RestUserController extends BaseController {
         try{
             Subject sb = SecurityUtils.getSubject();
             User user = userService.getUserByUserCode(username);
-            setCurUser(user);
             sb.login(token);
             List<ProjectInfo> projectInfos = projectInfoService.getByUserId(user.getId());
             sb.getSession().setAttribute("PROJECT_INFO", projectInfos);
@@ -147,7 +146,6 @@ public class RestUserController extends BaseController {
         String birthday = req.getParameter("birthday");
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
-        String userType = req.getParameter("userType");
         User user = new User();
         user.setId(Integer.parseInt(id));
         user.setModifyBy(Integer.parseInt(modifyBy));
@@ -160,7 +158,6 @@ public class RestUserController extends BaseController {
         }
         user.setPhone(phone);
         user.setAddress(address);
-        user.setUserType(Integer.parseInt(userType));
         String s = userService.updateUserById(user);
         return s;
     }

@@ -77,7 +77,7 @@ public class ProjectDocumentInfoController extends BaseController {
                 // 2. 获取上传文件的名称
                 String filename = file.getOriginalFilename();
                 String[] types = filename.split("\\.");
-                projectDocumentInfo.setTitle(filename);
+                projectDocumentInfo.setTitle(types[0]);
                 // 把文件的名称设置唯一值，uuid
                 String uuid = UUID.randomUUID().toString().replace("-", "");
                 filename = uuid + "_" + filename;
@@ -90,7 +90,6 @@ public class ProjectDocumentInfoController extends BaseController {
                         .setDownloads(0)
                         .setFileType(types[types.length-1])
                         .setFileUrl(path + filename)
-                        .setGroupId(0)
                         .setSize(file.getSize()/1024.0/1024.0)
                         .setPathName(path + filename)
                         .setAudit(false)
@@ -157,5 +156,16 @@ public class ProjectDocumentInfoController extends BaseController {
         projectDocumentInfoService.updateById(projectDocumentInfo);
 
         return "/projectDocument/list?projectId="+projectDocumentInfo.getProjectId()+"&searchCondition=";
+    }
+
+    @GetMapping("/updateFileName")
+    @ResponseBody
+    public Boolean updateFileName(@RequestParam("fileId") Integer fileId, @RequestParam("newName") String newName) {
+
+        ProjectDocumentInfo projectDocumentInfo = new ProjectDocumentInfo();
+        projectDocumentInfo.setId(fileId)
+                .setTitle(newName);
+
+        return projectDocumentInfoService.updateById(projectDocumentInfo);
     }
 }

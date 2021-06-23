@@ -1,6 +1,7 @@
 package cn.wzy.service.impl;
 
 import cn.wzy.dao.IPermissionMapper;
+import cn.wzy.dao.IProjectPermissionMapper;
 import cn.wzy.entity.Permission;
 import cn.wzy.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;

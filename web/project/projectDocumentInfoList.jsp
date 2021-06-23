@@ -37,7 +37,6 @@
                     <th width="10%">文件名</th>
                     <th width="10%">文件大小</th>
                     <th width="5%">上传者</th>
-                    <th width="5%">所属组织</th>
                     <th width="10%">所属项目</th>
                     <th width="5%">下载次数</th>
                     <th width="5%">文件类型</th>
@@ -51,7 +50,6 @@
                         <td>${file.title}</td>
                         <td>${file.size}MB</td>
                         <td>${file.createdBy}</td>
-                        <td>${file.groupId}</td>
                         <td>${file.projectId}</td>
                         <td>${file.downloads}</td>
                         <td>${file.fileType}</td>
@@ -60,6 +58,9 @@
                         <td>
 
                             <s:hasAnyRoles name="admin,manager">
+                                <a onclick="updateFileName(${file.id})"
+                                   class="layui-btn layui-btn-sm">修改
+                                </a>
                                 <c:choose>
                                     <c:when test="${file.audit == false}">
                                         <a href="${pageContext.request.contextPath}/projectDocument/audit/${file.id}"
@@ -95,8 +96,17 @@
                 </c:forEach>
             </table>
 
+            <form class="layui-form updateFileForm" id="updateFileForm" style="display:none; margin-top: 30px">
 
-            </table>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文件名</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="newName" name="newName"  required lay-verify="required" placeholder="请输入新文件名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+
+
 
         </div>
 
@@ -107,6 +117,48 @@
     </div>
 </div>
 <script>
+
+    function updateFileName(id) {
+        layui.use('form', function () {
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            form.render();
+            form.render('input' ,'updateFileForm'); //刷新select选择框渲染
+        });
+
+        layer.open({
+            type: 1,
+            title: '修改权限',
+            content: $("#updateFileForm"),
+            shade: 0,
+            btn: ['保存', '重置'],
+            btn1: function (index, layero) {
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/projectDocument/updateFileName",
+                    type:"get",
+                    data: $(".updateFileForm").serialize() + '&fileId=' + id,
+                    success: function (data) {
+                        if (data === true) {
+                            alert("更新成功");
+                        } else if (data === false) {
+                            alert("更新失败");
+                        }
+                        window.location.href = "${pageContext.request.contextPath}/projectDocument/list?projectId="+'${CUR_PROJECT.id}'+"&searchCondition=";
+                    },
+                    error: function () {
+                        alert('更新异常')
+                    }
+                })
+            },
+            btn2: function (index, layero) {
+                alert("2222");
+                return false;
+            },
+            cancel: function (layero, index) {
+                layer.closeAll();
+            }
+
+        });
+    }
     layui.use('upload', function () {
         var upload = layui.upload;
 

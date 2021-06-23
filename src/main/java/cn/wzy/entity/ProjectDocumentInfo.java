@@ -45,9 +45,6 @@ public class ProjectDocumentInfo implements Serializable {
     @TableField("upload_user_id")
     private Integer uploadUserId;
 
-    //@ApiModelProperty(value = "组织id")
-    @TableField("group_id")
-    private Integer groupId = 0;
 
     //@ApiModelProperty(value = "所属项目id")
     @TableField("project_id")
@@ -75,7 +72,6 @@ public class ProjectDocumentInfo implements Serializable {
 
     //@ApiModelProperty(value = "版本号")
     @TableField("version")
-    
     private Integer version;
 
     //@ApiModelProperty(value = "创建人")
@@ -84,16 +80,14 @@ public class ProjectDocumentInfo implements Serializable {
 
     //@ApiModelProperty(value = "创建时间")
     @TableField("created_time")
-    @JSONField(format = "yyyy-MM-dd")
     private Date createdTime;
 
     //@ApiModelProperty(value = "更新人")
-    @TableField(value = "last_modified_by", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "last_modified_by",updateStrategy = FieldStrategy.NEVER)
     private String lastModifiedBy;
 
     //@ApiModelProperty(value = "更新时间")
     @TableField("last_modified_time")
-    @JSONField(format = "yyyy-MM-dd")
     private Date lastModifiedTime;
 
     public ProjectDocumentInfo incrementDownloads() {

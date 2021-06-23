@@ -49,13 +49,6 @@
                     <label for="userAddress">用户地址：</label>
                     <input type="text" name="address" id="userAddress" value="${USER.address}"/>
                 </div>
-                <div>
-                    <label >用户类别：</label>
-                    <input type="radio" name="userType" value="1" ${USER.userType eq 1?"checked":""}/>所有者
-                    <input type="radio" name="userType" <c:if test="${USER.userType eq 1}">disabled</c:if> value="2" ${USER.userType eq 2?"checked":""}/>管理员
-                    <input type="radio" name="userType" <c:if test="${USER.userType eq 1}">disabled</c:if> value="3" ${USER.userType eq 3?"checked":""}/>普通用户
-
-                </div>
                 <div class="providerAddBtn">
                     <!--<a href="#">保存</a>-->
                     <!--<a href="userList.jsp">返回</a>-->
@@ -137,10 +130,10 @@
                     success:function (data) {
                         if(data=="success"){
                             alert("修改成功");
-                            window.location.href="${pageContext.request.contextPath}/user/getAll";
+                            window.location.href="${pageContext.request.contextPath}/user/get/<s:principal property="id"></s:principal>";
                         }else if(data=="error"){
                             alert("修改失败");
-                            window.location.href="${pageContext.request.contextPath}/user/getAll";
+                            window.location.href="${pageContext.request.contextPath}/user/get/<s:principal property="id"></s:principal>";
                         }
                     },
                     error:function () {

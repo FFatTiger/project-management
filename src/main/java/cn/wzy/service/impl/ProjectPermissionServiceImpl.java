@@ -2,11 +2,14 @@ package cn.wzy.service.impl;
 
 
 import cn.wzy.dao.IProjectPermissionMapper;
+import cn.wzy.entity.Permission;
 import cn.wzy.entity.ProjectPermission;
 import cn.wzy.service.IProjectPermissionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 /**
@@ -19,5 +22,15 @@ public class ProjectPermissionServiceImpl extends ServiceImpl<IProjectPermission
     @Override
     public ProjectPermission getPermissionByProIdAndUserId(Integer projectId, Integer userId) {
          return getBaseMapper().getPermissionByProIdAndUserId(projectId, userId);
+    }
+
+    @Override
+    public List<Permission> getAllPermissionByUserType(Integer roleId) {
+        return getBaseMapper().getAllPermissionByUserType(roleId);
+    }
+
+    @Override
+    public List<Permission> getAllNotMenuByUserType(Integer roleId) {
+        return getBaseMapper().getAllNotMenuByUserType(roleId);
     }
 }

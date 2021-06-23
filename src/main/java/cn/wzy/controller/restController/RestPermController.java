@@ -1,6 +1,8 @@
 package cn.wzy.controller.restController;
 
 
+import cn.wzy.entity.Role;
+import cn.wzy.service.IProjectPermissionService;
 import com.alibaba.fastjson.JSONArray;
 import cn.wzy.entity.Permission;
 import cn.wzy.entity.User;
@@ -19,14 +21,14 @@ import java.util.List;
 public class RestPermController {
 
     @Autowired
-    private IPermissionService permissionService;
+    private IProjectPermissionService permissionService;
 
     @RequestMapping(value = "/getMenu",produces = "text/html;charset=utf-8")
     public String getAllMenu(){
 
         Subject sb = SecurityUtils.getSubject();
         User user = (User)sb.getPrincipal();
-        List<Permission> list = permissionService.getAllPermissionByUserType(user.getUserType());
+        List<Permission> list = permissionService.getAllPermissionByUserType(1);
         return JSONArray.toJSON(list).toString();
     }
 

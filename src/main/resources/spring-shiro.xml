@@ -67,15 +67,7 @@
                 /common/** = anon
                 /user/edit = authc
                 /user/logout = authc
-                /billAdd.jsp = authc,roleFilter[admin,manager]
-                /providerAdd.jsp = authc,roleFilter[admin]
-                /userAdd.jsp = authc,roleFilter[admin]
-                /bill/getAll = authc,roleFilter[admin,manager,custom]
-                /provider/getAll = authc,roleFilter[admin,manager,custom]
-                /bill/get/* = authc,roleFilter[admin,manager,custom]
-                /provider/get/* = authc,roleFilter[admin,manager,custom]
-                /user/getAll = authc,roleFilter[admin,manager]
-                /user/get/* = authc,roleFilter[admin,manager]
+                /user/get/* = authc
                 /user/getAllUserInfo = authc
                 /** = authc
 

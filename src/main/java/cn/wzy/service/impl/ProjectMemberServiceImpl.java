@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 public class ProjectMemberServiceImpl extends ServiceImpl<IProjectMemberMapper, ProjectMember> implements IProjectMemberService {
     @Override
-    public List<ProjectMemberVO> getMemberVOByProjectId(Integer projectId) {
-        return getBaseMapper().getMemberVOByProjectId(projectId);
+    public List<ProjectMemberVO> getMemberVOByProjectId(Integer projectId,String searchCondition) {
+        return getBaseMapper().getMemberVOByProjectId(projectId, searchCondition);
     }
 }
