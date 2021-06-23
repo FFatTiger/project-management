@@ -1,5 +1,5 @@
 # project-management
-jsp项目管理+权限控制
+# jsp项目管理系统+权限控制
 
 mybatisplus,spring,springmvc,shiro,jsp
 shiro没怎么用，由于是缝合别人的，很匆忙也很粗糙
